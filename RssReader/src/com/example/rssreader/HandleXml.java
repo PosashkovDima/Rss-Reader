@@ -3,6 +3,7 @@ package com.example.rssreader;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -10,18 +11,20 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 public class HandleXml {
 
-//	private String title = "title";
-//	private String link = "link";
-//	private String description = "description";
-//	private String pubDate = "pubDate";
+	// private String title = "title";
+	// private String link = "link";
+	// private String description = "description";
+	// private String pubDate = "pubDate";
 	private List<RssItem> rssItems;
 
 	private String urlString = null;
 	private XmlPullParserFactory xmlFactoryObject;
 	private volatile boolean isParsingComplete = false;
+	private RssItem currentItem;
 
 	public HandleXml(String url) {
 		this.urlString = url;
+		rssItems = new ArrayList<RssItem>();
 	}
 
 	public boolean isParsingComplite() {
@@ -50,15 +53,19 @@ public class HandleXml {
 					text = myParser.getText();
 					break;
 				case XmlPullParser.END_TAG:
-					if (name.equals("title")) {
-						title = text;
+					if (name.equals("item")) {
+						currentItem = new RssItem();
+					} else if (name.equals("title")) {
+						currentItem.setTitle(text);
 					} else if (name.equals("link")) {
-						link = text;
+						currentItem.setLink(text);
 					} else if (name.equals("description")) {
-						description = text;}
-//					} else if (name.equals("pubDate")) {
-//						pubDate = text;
-//					}
+						currentItem.setDescription(text);
+					}
+					rssItems.add(currentItem);
+					// } else if (name.equals("pubDate")) {
+					// pubDate = text;
+					// }
 					break;
 				}
 				event = myParser.next();
