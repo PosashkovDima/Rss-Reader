@@ -2,33 +2,33 @@ package com.example.rssreader;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
-	private PostData[] listData;
+	private String finalUrl = "http://news.yandex.ru/hardware.rss";
+	private HandleXml obj;
+	private EditText title, link, description, postDate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_postlist);
-
-		this.generateDummyData();
-		ListView listView = (ListView) this.findViewById(R.id.postListView);
-		PostItemAdapter itemAdapter = new PostItemAdapter(this,
-				R.layout.postitem, listData);
-		listView.setAdapter(itemAdapter);
+		setContentView(R.layout.activity_main);
+		title = (EditText) findViewById(R.id.editTextTitle);
+		link = (EditText) findViewById(R.id.editTextLink);
+		description = (EditText) findViewById(R.id.editTextDescription);
+		postDate = (EditText) findViewById(R.id.editTextPubDate);
 	}
 
-	private void generateDummyData() {
-		PostData data = null;
-		listData = new PostData[10];
-		for (int i = 0; i < 10; i++) {
-			data = new PostData();
-			data.postDate = "May 20, 2013";
-			data.postTitle = "Post " + (i + 1)
-					+ " Title: This is the Post Title from RSS Feed";
-			data.postThumbUrl = null;
-			listData[i] = data;
-		}
+	public void fetch(View view) {
+		obj = new HandleXml(finalUrl);
+		obj.fetchXML();
+		while (!obj.isParsingComplite())
+			;
+		title.setText(obj.getTitle());
+		link.setText(obj.getLink());
+		description.setText(obj.getDescription());
+		postDate.setText(obj.getPubDate());
 	}
+
 }

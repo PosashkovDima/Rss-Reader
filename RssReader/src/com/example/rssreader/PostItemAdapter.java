@@ -21,23 +21,39 @@ public class PostItemAdapter extends ArrayAdapter<PostData> {
 		datas = objects;
 	}
 
+	static class ViewHolder {
+		TextView postTitleView;
+		TextView postDateView;
+		ImageView postThumbView;
+	}
+
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder viewHolder;
 		LayoutInflater inflater = myContext.getLayoutInflater();
-		View rowView = inflater.inflate(R.layout.postitem, null);
-		ImageView thumbImageView = (ImageView) rowView
-				.findViewById(R.id.postThumb);
-		if (datas[position].postThumbUrl == null) {
-			thumbImageView.setImageResource(R.drawable.img_rss_small);
+
+		if (convertView == null) {
+			convertView = inflater.inflate(R.layout.listview_item, null);
+
+			viewHolder = new ViewHolder();
+			viewHolder.postThumbView = (ImageView) convertView
+					.findViewById(R.id.postThumb);
+			viewHolder.postTitleView = (TextView) convertView
+					.findViewById(R.id.postTitleLabel);
+			viewHolder.postDateView = (TextView) convertView
+					.findViewById(R.id.postDateLabel);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		TextView postTitleView = (TextView) rowView
-				.findViewById(R.id.postTitleLabel);
-		postTitleView.setText(datas[position].postTitle);
+		if (datas[position].postThumbUrl == null) {
+			viewHolder.postThumbView.setImageResource(R.drawable.img_rss_small);
+		}
 
-		TextView postDateView = (TextView) rowView
-				.findViewById(R.id.postDateLabel);
-		postDateView.setText(datas[position].postDate);
+		viewHolder.postTitleView.setText(datas[position].postTitle);
+		viewHolder.postDateView.setText(datas[position].postDate);
 
-		return rowView;
+		return convertView;
 	}
+
 }
