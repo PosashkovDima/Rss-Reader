@@ -13,10 +13,6 @@ import android.util.Log;
 
 public class HandleXml {
 
-	// private String title = "title";
-	// private String link = "link";
-	// private String description = "description";
-	// private String pubDate = "pubDate";
 	private List<RssItem> rssItems;
 
 	private String urlString = null;
@@ -74,15 +70,11 @@ public class HandleXml {
 
 						rssItems.add(currentItem);
 						currentItem = null;
-					} 
-					// } else if (name.equals("pubDate")) {
-					// pubDate = text;
-					// }
+					}
 					break;
 				}
 				event = myParser.next();
 				Log.e("handleXML", "next:");
-				//Log.e("handleXML", text);
 			}
 			Log.e("handleXML", "isParsingComplete=true");
 			isParsingComplete = true;
