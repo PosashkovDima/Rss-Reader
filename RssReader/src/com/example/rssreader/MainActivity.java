@@ -25,10 +25,10 @@ public class MainActivity extends Activity {
 		obj.fetchXML();
 		while (!obj.isParsingComplite())
 			;
-		title.setText(obj.getTitle());
-		link.setText(obj.getLink());
-		description.setText(obj.getDescription());
-		postDate.setText(obj.getPubDate());
+//		title.setText(obj.getTitle());
+//		link.setText(obj.getLink());
+//		description.setText(obj.getDescription());
+//		postDate.setText(obj.getPubDate());
 	}
 
 }
