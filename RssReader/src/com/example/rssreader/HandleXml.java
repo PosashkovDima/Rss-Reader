@@ -9,6 +9,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.util.Log;
+
 public class HandleXml {
 
 	// private String title = "title";
@@ -53,23 +55,35 @@ public class HandleXml {
 					text = myParser.getText();
 					break;
 				case XmlPullParser.END_TAG:
-					if (name.equals("item")) {
+					if (name.equals("title")) {
 						currentItem = new RssItem();
-					} else if (name.equals("title")) {
 						currentItem.setTitle(text);
+
+						Log.e("handleXML", name);
+						Log.e("handleXML", currentItem.getTitle());
+
 					} else if (name.equals("link")) {
 						currentItem.setLink(text);
+
+						Log.e("handleXML", name);
+
 					} else if (name.equals("description")) {
 						currentItem.setDescription(text);
+
+						Log.e("handleXML", name);
+
+						rssItems.add(currentItem);
+						currentItem = null;
 					}
-					rssItems.add(currentItem);
 					// } else if (name.equals("pubDate")) {
 					// pubDate = text;
 					// }
 					break;
 				}
 				event = myParser.next();
+				Log.e("handleXML", "next");
 			}
+			Log.e("handleXML", "isParsingComplete=true");
 			isParsingComplete = true;
 		} catch (Exception e) {
 			e.printStackTrace();

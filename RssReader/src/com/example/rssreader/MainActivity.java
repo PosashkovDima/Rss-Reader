@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -29,10 +30,16 @@ public class MainActivity extends Activity {
 		while (!obj.isParsingComplite())
 			;
 		rssItems = obj.getItems();
+		
 		title.setText(rssItems.get(0).getTitle());
+		Log.e("handleXML", rssItems.get(0).getTitle());
+		
 		link.setText(rssItems.get(0).getLink());
+		Log.e("handleXML", rssItems.get(0).getLink());
+		
 		description.setText(rssItems.get(0).getDescription());
-//		postDate.setText(obj.getPubDate());
+		Log.e("handleXML", "121313");
+		// postDate.setText(obj.getPubDate());
 	}
 
 }
