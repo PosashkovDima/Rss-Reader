@@ -9,65 +9,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title" />
-
-    <EditText
-        android:id="@+id/editTextTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description" />
-
-    <EditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textViewLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/link" />
-
-    <EditText
-        android:id="@+id/editTextLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textViewPubDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/postDate" />
-
-    <EditText
-        android:id="@+id/editTextPubDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date" >
-    </EditText>
-
     <Button
         android:id="@+id/buttonFetch"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_height="wrap_content" 
         android:onClick="fetch"
         android:text="@string/fetch" />
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ListView>
 
 </LinearLayout>
