@@ -74,14 +74,15 @@ public class HandleXml {
 
 						rssItems.add(currentItem);
 						currentItem = null;
-					}
+					} 
 					// } else if (name.equals("pubDate")) {
 					// pubDate = text;
 					// }
 					break;
 				}
 				event = myParser.next();
-				Log.e("handleXML", "next");
+				Log.e("handleXML", "next:");
+				//Log.e("handleXML", text);
 			}
 			Log.e("handleXML", "isParsingComplete=true");
 			isParsingComplete = true;

@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 		Log.e("handleXML", rssItems.get(0).getLink());
 		
 		description.setText(rssItems.get(0).getDescription());
-		Log.e("handleXML", "121313");
+		Log.e("handleXML", rssItems.get(0).getDescription());
 		// postDate.setText(obj.getPubDate());
 	}
 
