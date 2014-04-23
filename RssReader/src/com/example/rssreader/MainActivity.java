@@ -21,10 +21,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		lv = (ListView) findViewById(R.id.listView1);
-//		title = (EditText) findViewById(R.id.editTextTitle);
-//		link = (EditText) findViewById(R.id.editTextLink);
-//		description = (EditText) findViewById(R.id.editTextDescription);
-//		postDate = (EditText) findViewById(R.id.editTextPubDate);
+		// title = (EditText) findViewById(R.id.editTextTitle);
+		// link = (EditText) findViewById(R.id.editTextLink);
+		// description = (EditText) findViewById(R.id.editTextDescription);
+		// postDate = (EditText) findViewById(R.id.editTextPubDate);
 	}
 
 	public void fetch(View view) {
@@ -33,18 +33,8 @@ public class MainActivity extends Activity {
 		while (!obj.isParsingComplite())
 			;
 		rssItems = obj.getItems();
-		ArrayAdapter<RssItem> adapter = new ArrayAdapter<RssItem>(this,
-				android.R.layout.simple_list_item_1, rssItems);
+		ListAdapter adapter = new ListAdapter(this, rssItems);
 		lv.setAdapter(adapter);
-		// title.setText(rssItems.get(0).getTitle());
-		// Log.e("handleXML", rssItems.get(0).getTitle());
-		//
-		// link.setText(rssItems.get(0).getLink());
-		// Log.e("handleXML", rssItems.get(0).getLink());
-		//
-		// description.setText(rssItems.get(0).getDescription());
-		// Log.e("handleXML", rssItems.get(0).getDescription());
-		// postDate.setText(obj.getPubDate());
 	}
 
 }
