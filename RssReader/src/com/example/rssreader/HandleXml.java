@@ -52,33 +52,35 @@ public class HandleXml {
 
 				switch (event) {
 				case XmlPullParser.START_TAG:
-					if (name.equals("food")) {
+					if (name.equals("item")) {
 						currentItem = new RssItem();
-						
+
 					}
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
 					break;
 				case XmlPullParser.END_TAG:
-					if (name.equals("name")) {
-						currentItem.setTitle(text);
-						
-						Log.e("handleXML", name);
-						Log.e("handleXML", currentItem.getTitle());
+					if (currentItem != null) {
+						if (name.equals("title")) {
+							currentItem.setTitle(text);
 
-					} else if (name.equals("price")) {
-						currentItem.setLink(text);
+							Log.e("handleXML", name);
+							Log.e("handleXML", currentItem.getTitle());
 
-						Log.e("handleXML", name);
+						} else if (name.equals("link")) {
+							currentItem.setLink(text);
 
-					} else if (name.equals("description")) {
-						currentItem.setDescription(text);
+							Log.e("handleXML", name);
 
-						Log.e("handleXML", name);
+						} else if (name.equals("description")) {
+							currentItem.setDescription(text);
 
-						rssItems.add(currentItem);
-						currentItem = null;
+							Log.e("handleXML", name);
+
+							rssItems.add(currentItem);
+							currentItem = null;
+						}
 					}
 					break;
 				}
