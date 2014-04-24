@@ -7,33 +7,30 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-	// private String finalUrl =
-	// "http://tutorialspoint.com/android/sampleXML.xml";
-
 	private String finalUrl = "http://news.yandex.ru/hardware.rss";
-	private HandleXml obj;
-	private ListView lv;
+	private HandleXml myHandle;
+	private ListView listViewRss;
 	private List<RssItem> rssItems;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		lv = (ListView) findViewById(R.id.listView1);
+		listViewRss = (ListView) findViewById(R.id.listView1);
 
-		fetch();
+		runRssReader();
 	}
 
-	public void fetch() {
-		obj = new HandleXml(finalUrl);
-		obj.fetchXML();
-		while (!obj.isParsingComplite())
+	public void runRssReader() {
+		myHandle = new HandleXml(finalUrl);
+		myHandle.fetchXml();
+		while (!myHandle.isParsingComplite())
 			;
-		rssItems = obj.getItems();
-		ListAdapter adapter = new ListAdapter(this, rssItems);
+		rssItems = myHandle.getItems();
+		ListAdapter listAdapterRss = new ListAdapter(this, rssItems);
 
-		lv.setAdapter(adapter);
-		lv.setOnItemClickListener(new ListListener(rssItems, this));
+		listViewRss.setAdapter(listAdapterRss);
+		listViewRss.setOnItemClickListener(new ListListener(rssItems, this));
 	}
 
 }

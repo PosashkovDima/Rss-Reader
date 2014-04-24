@@ -9,8 +9,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import android.util.Log;
-
 public class HandleXml {
 
 	private List<RssItem> rssItems;
@@ -34,12 +32,12 @@ public class HandleXml {
 	}
 
 	/**
-	 * Parse XML and save it to List<RssItem>
+	 * Parse XML and store it to List<RssItem>
 	 * 
 	 * @param XmlPullParser
 	 *            myParser
 	 * */
-	public void parseXMLAndStoreIt(XmlPullParser myParser) {
+	public void parseXmlAndStoreIt(XmlPullParser myParser) {
 		int event;
 		String text = null;
 		try {
@@ -79,7 +77,10 @@ public class HandleXml {
 		}
 	}
 
-	public void fetchXML() {
+	/**
+	 * Set connection with content buy url, download .xml and start parsing.
+	 */
+	public void fetchXml() {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -101,7 +102,7 @@ public class HandleXml {
 					myparser.setFeature(
 							XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 					myparser.setInput(stream, null);
-					parseXMLAndStoreIt(myparser);
+					parseXmlAndStoreIt(myparser);
 					stream.close();
 				} catch (Exception e) {
 				}
