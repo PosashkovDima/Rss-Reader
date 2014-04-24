@@ -36,7 +36,8 @@ public class HandleXml {
 	/**
 	 * Parse XML and save it to List<RssItem>
 	 * 
-	 * @param XmlPullParser myParser
+	 * @param XmlPullParser
+	 *            myParser
 	 * */
 	public void parseXMLAndStoreIt(XmlPullParser myParser) {
 		int event;
@@ -51,19 +52,22 @@ public class HandleXml {
 
 				switch (event) {
 				case XmlPullParser.START_TAG:
+					if (name.equals("food")) {
+						currentItem = new RssItem();
+						
+					}
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
 					break;
 				case XmlPullParser.END_TAG:
-					if (name.equals("title")) {
-						currentItem = new RssItem();
+					if (name.equals("name")) {
 						currentItem.setTitle(text);
-
+						
 						Log.e("handleXML", name);
 						Log.e("handleXML", currentItem.getTitle());
 
-					} else if (name.equals("link")) {
+					} else if (name.equals("price")) {
 						currentItem.setLink(text);
 
 						Log.e("handleXML", name);

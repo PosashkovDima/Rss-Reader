@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-	private String finalUrl = "http://tutorialspoint.com/android/sampleXML.xml";
+	// private String finalUrl =
+	// "http://tutorialspoint.com/android/sampleXML.xml";
+
+	private String finalUrl = "http://www.w3schools.com/xml/simple.xml";
 	private HandleXml obj;
 	private ListView lv;
 	private List<RssItem> rssItems;
