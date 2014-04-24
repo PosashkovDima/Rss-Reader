@@ -33,6 +33,11 @@ public class HandleXml {
 		return rssItems;
 	}
 
+	/**
+	 * Parse XML and save it to List<RssItem>
+	 * 
+	 * @param XmlPullParser myParser
+	 * */
 	public void parseXMLAndStoreIt(XmlPullParser myParser) {
 		int event;
 		String text = null;
