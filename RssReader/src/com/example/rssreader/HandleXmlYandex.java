@@ -63,6 +63,9 @@ public class HandleXmlYandex {
 
 						} else if (name.equals("description")) {
 							currentItem.setDescription(text);
+							
+						} else if (name.equals("pubDate")) {
+							currentItem.setPubDate(text);
 							rssItems.add(currentItem);
 							currentItem = null;
 						}

@@ -13,8 +13,11 @@ public class ListAdapter extends ArrayAdapter<RssItem> {
 	private final Context context;
 	private List<RssItem> rssItems;
 
+	private TextView textViewTitle;
+	private TextView textViewPubDate;
+
 	public ListAdapter(Context context, List<RssItem> rssItems) {
-		super(context, R.layout.rowlayout, rssItems);
+		super(context, R.layout.listview_row, rssItems);
 		this.context = context;
 		this.rssItems = rssItems;
 	}
@@ -24,12 +27,13 @@ public class ListAdapter extends ArrayAdapter<RssItem> {
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+		View rowView = inflater.inflate(R.layout.listview_row, parent, false);
 
-		TextView editTextTitle = (TextView) rowView
-				.findViewById(R.id.editTextTitle);
+		textViewTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
+		textViewPubDate = (TextView) rowView.findViewById(R.id.textViewPubDate);
 
-		editTextTitle.setText(rssItems.get(position).getTitle());
+		textViewPubDate.setText(rssItems.get(position).getPubDate());
+		textViewTitle.setText(rssItems.get(position).getTitle());
 
 		return rowView;
 	}

@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
 		listViewRss = (ListView) findViewById(R.id.listView1);
 
 		runRssReader();
+
 	}
 
 	public void runRssReader() {
