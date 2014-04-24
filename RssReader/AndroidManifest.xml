@@ -26,6 +26,6 @@
         </activity>
         <activity android:name="com.example.rssreader.DescriptionScreen" >
         </activity>
-</application>
+    </application>
 
 </manifest>
