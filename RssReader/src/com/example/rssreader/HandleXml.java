@@ -42,19 +42,14 @@ public class HandleXml {
 	public void parseXMLAndStoreIt(XmlPullParser myParser) {
 		int event;
 		String text = null;
-
 		try {
 			event = myParser.getEventType();
-
 			while (event != XmlPullParser.END_DOCUMENT) {
-
 				String name = myParser.getName();
-
 				switch (event) {
 				case XmlPullParser.START_TAG:
 					if (name.equals("item")) {
 						currentItem = new RssItem();
-
 					}
 					break;
 				case XmlPullParser.TEXT:
@@ -65,19 +60,11 @@ public class HandleXml {
 						if (name.equals("title")) {
 							currentItem.setTitle(text);
 
-							Log.e("handleXML", name);
-							Log.e("handleXML", currentItem.getTitle());
-
 						} else if (name.equals("link")) {
 							currentItem.setLink(text);
 
-							Log.e("handleXML", name);
-
 						} else if (name.equals("description")) {
 							currentItem.setDescription(text);
-
-							Log.e("handleXML", name);
-
 							rssItems.add(currentItem);
 							currentItem = null;
 						}
@@ -85,9 +72,7 @@ public class HandleXml {
 					break;
 				}
 				event = myParser.next();
-				Log.e("handleXML", "next:");
 			}
-			Log.e("handleXML", "isParsingComplete=true");
 			isParsingComplete = true;
 		} catch (Exception e) {
 			e.printStackTrace();
