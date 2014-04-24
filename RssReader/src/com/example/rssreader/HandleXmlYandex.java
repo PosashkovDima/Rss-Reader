@@ -9,7 +9,7 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-public class HandleXml {
+public class HandleXmlYandex {
 
 	private List<RssItem> rssItems;
 
@@ -18,7 +18,7 @@ public class HandleXml {
 	private volatile boolean isParsingComplete = false;
 	private RssItem currentItem;
 
-	public HandleXml(String url) {
+	public HandleXmlYandex(String url) {
 		this.urlString = url;
 		rssItems = new ArrayList<RssItem>();
 	}

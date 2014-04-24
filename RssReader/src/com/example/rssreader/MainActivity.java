@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity {
 	private String finalUrl = "http://news.yandex.ru/hardware.rss";
-	private HandleXml myHandle;
+	private HandleXmlYandex myHandleYandexRss;
 	private ListView listViewRss;
 	private List<RssItem> rssItems;
 
@@ -22,11 +22,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void runRssReader() {
-		myHandle = new HandleXml(finalUrl);
-		myHandle.fetchXml();
-		while (!myHandle.isParsingComplite())
+		myHandleYandexRss = new HandleXmlYandex(finalUrl);
+		myHandleYandexRss.fetchXml();
+		while (!myHandleYandexRss.isParsingComplite())
 			;
-		rssItems = myHandle.getItems();
+		rssItems = myHandleYandexRss.getItems();
 		ListAdapter listAdapterRss = new ListAdapter(this, rssItems);
 
 		listViewRss.setAdapter(listAdapterRss);
