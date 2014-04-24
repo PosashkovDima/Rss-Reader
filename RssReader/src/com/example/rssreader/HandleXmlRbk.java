@@ -9,16 +9,16 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-public class HandleXmlYandex {
+public class HandleXmlRbk {
 
 	private List<RssItem> rssItems;
 
-	private String urlString = "http://news.yandex.ru/hardware.rss";
+	private String urlString = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
 	private volatile boolean isParsingComplete = false;
 	private RssItem currentItem;
 
-	public HandleXmlYandex() {  
+	public HandleXmlRbk() {  
 		rssItems = new ArrayList<RssItem>();
 	}
 

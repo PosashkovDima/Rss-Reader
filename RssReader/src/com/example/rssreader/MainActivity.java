@@ -7,8 +7,9 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
-	private String finalUrl = "http://news.yandex.ru/hardware.rss";
+
 	private HandleXmlYandex myHandleYandexRss;
+	private HandleXmlRbk myHandleRbkRss;
 	private ListView listViewRss;
 	private List<RssItem> rssItems;
 
@@ -18,20 +19,32 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		listViewRss = (ListView) findViewById(R.id.listView1);
 
-		runRssReader();
-
+		runRssReaderRbk();
+		displayRss();
 	}
 
-	public void runRssReader() {
-		myHandleYandexRss = new HandleXmlYandex(finalUrl);
+	public void runRssReaderYandex() {
+		myHandleYandexRss = new HandleXmlYandex();
 		myHandleYandexRss.fetchXml();
 		while (!myHandleYandexRss.isParsingComplite())
 			;
 		rssItems = myHandleYandexRss.getItems();
+	}
+
+	public void runRssReaderRbk() {
+		myHandleRbkRss = new HandleXmlRbk();
+		myHandleRbkRss.fetchXml();
+		while (!myHandleRbkRss.isParsingComplite())
+			;
+		rssItems = myHandleRbkRss.getItems();
+	}
+
+	public void displayRss() {
 		ListAdapter listAdapterRss = new ListAdapter(this, rssItems);
 
 		listViewRss.setAdapter(listAdapterRss);
 		listViewRss.setOnItemClickListener(new ListListener(rssItems, this));
+
 	}
 
 }
