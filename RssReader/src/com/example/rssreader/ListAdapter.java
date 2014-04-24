@@ -28,11 +28,8 @@ public class ListAdapter extends ArrayAdapter<RssItem> {
 
 		TextView editTextTitle = (TextView) rowView
 				.findViewById(R.id.editTextTitle);
-		TextView editTextDescription = (TextView) rowView
-				.findViewById(R.id.editTextDescription);
 
 		editTextTitle.setText(rssItems.get(position).getTitle());
-		editTextDescription.setText(rssItems.get(position).getDescription());
 
 		return rowView;
 	}

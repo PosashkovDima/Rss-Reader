@@ -7,15 +7,8 @@
     <TextView
         android:id="@+id/editTextTitle"
         android:layout_width="314dp"
-        android:layout_height="wrap_content" 
-        android:textSize="15sp" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp" >
+        android:textSize="15sp" >
     </TextView>
 
 </LinearLayout>

@@ -9,8 +9,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ListListener implements OnItemClickListener {
-	List<RssItem> listItems;
-	Activity activity;
+	private List<RssItem> listItems;
+	private Activity activity;
+	private static final String DESCRIPTION = "description";
 
 	public ListListener(List<RssItem> listItems, Activity activity) {
 		this.listItems = listItems;
@@ -21,7 +22,7 @@ public class ListListener implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
 
 		Intent i = new Intent(activity, DescriptionScreen.class);
+		i.putExtra(DESCRIPTION, listItems.get(pos).getDescription());
 		activity.startActivity(i);
 	}
-
 }
