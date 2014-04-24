@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -18,15 +17,18 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		lv = (ListView) findViewById(R.id.listView1);
+
+		fetch();
 	}
 
-	public void fetch(View view) {
+	public void fetch() {
 		obj = new HandleXml(finalUrl);
 		obj.fetchXML();
 		while (!obj.isParsingComplite())
 			;
 		rssItems = obj.getItems();
 		ListAdapter adapter = new ListAdapter(this, rssItems);
+
 		lv.setAdapter(adapter);
 		lv.setOnItemClickListener(new ListListener(rssItems, this));
 	}
