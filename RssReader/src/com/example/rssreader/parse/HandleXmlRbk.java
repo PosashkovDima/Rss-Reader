@@ -1,4 +1,4 @@
-package com.example.rssreader;
+package com.example.rssreader.parse;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -9,16 +9,18 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-public class HandleXmlYandex {
+import android.util.Log;
+
+public class HandleXmlRbk {
 
 	private List<RssItem> rssItems;
 
-	private String urlString = "http://news.yandex.ru/hardware.rss";
+	private String urlString = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
 	private volatile boolean isParsingComplete = false;
 	private RssItem currentItem;
 
-	public HandleXmlYandex() {  
+	public HandleXmlRbk() {
 		rssItems = new ArrayList<RssItem>();
 	}
 
@@ -48,9 +50,11 @@ public class HandleXmlYandex {
 					if (name.equals("item")) {
 						currentItem = new RssItem();
 					}
+					Log.e("asdasd", name);
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
+					Log.e("asdasd", text);
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentItem != null) {
@@ -62,7 +66,7 @@ public class HandleXmlYandex {
 
 						} else if (name.equals("description")) {
 							currentItem.setDescription(text);
-							
+
 						} else if (name.equals("pubDate")) {
 							currentItem.setPubDate(text);
 							rssItems.add(currentItem);

@@ -2,6 +2,8 @@ package com.example.rssreader;
 
 import java.util.List;
 
+import com.example.rssreader.parse.RssItem;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;

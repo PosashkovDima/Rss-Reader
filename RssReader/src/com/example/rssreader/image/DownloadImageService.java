@@ -1,4 +1,4 @@
-package com.example.rssreader;
+package com.example.rssreader.image;
 
 import java.io.BufferedInputStream;
 import java.io.File;

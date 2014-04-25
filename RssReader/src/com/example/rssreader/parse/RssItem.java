@@ -1,4 +1,4 @@
-package com.example.rssreader;
+package com.example.rssreader.parse;
 
 public class RssItem {
 	private String link;

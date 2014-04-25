@@ -1,5 +1,7 @@
 package com.example.rssreader;
 
+import com.example.rssreader.image.DownloadImageService;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,29 +21,22 @@ public class DescriptionScreenActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		 
+
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.description_activity);
+		setContentView(R.layout.description);
 
 		tv = (TextView) findViewById(R.id.textViewDescription);
 		tv.setText(getIntent().getStringExtra(DESCRIPTION));
-
-		imageDownloaded = (ImageView) findViewById(R.id.imageDownloaded);
 	}
 
-	private void setImage() {
-		String imagePath = getFilesDir().toString() + "/"
-				+ DOWNLOADED_IMAGE_NAME;
-		imageDownloaded.setImageDrawable(Drawable.createFromPath(imagePath));
-	}
-
+	/**
+	 * If news contains an image receiver set it to imageView.
+	 */
 	private BroadcastReceiver receiverDownloadingImage = new BroadcastReceiver() {
-
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
-
 				int resultCode = bundle.getInt(DownloadImageService.RESULT);
 				if (resultCode == RESULT_OK) {
 					setImage();
@@ -49,6 +44,16 @@ public class DescriptionScreenActivity extends Activity {
 			}
 		}
 	};
+
+	/**
+	 * Set image on imageView.
+	 */
+	private void setImage() {
+		imageDownloaded = (ImageView) findViewById(R.id.imageDownloaded);
+		String imagePath = getFilesDir().toString() + "/"
+				+ DOWNLOADED_IMAGE_NAME;
+		imageDownloaded.setImageDrawable(Drawable.createFromPath(imagePath));
+	}
 
 	@Override
 	protected void onResume() {

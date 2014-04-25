@@ -2,6 +2,8 @@ package com.example.rssreader;
 
 import java.util.List;
 
+import com.example.rssreader.parse.RssItem;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,7 @@ public class ListAdapter extends ArrayAdapter<RssItem> {
 	private TextView textViewPubDate;
 
 	public ListAdapter(Context context, List<RssItem> rssItems) {
-		super(context, R.layout.listview_row, rssItems);
+		super(context, R.layout.list_item, rssItems);
 		this.context = context;
 		this.rssItems = rssItems;
 	}
@@ -27,7 +29,7 @@ public class ListAdapter extends ArrayAdapter<RssItem> {
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.listview_row, parent, false);
+		View rowView = inflater.inflate(R.layout.list_item, parent, false);
 
 		textViewTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
 		textViewPubDate = (TextView) rowView.findViewById(R.id.textViewPubDate);

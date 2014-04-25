@@ -6,9 +6,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+import com.example.rssreader.parse.HandleXmlRbk;
+import com.example.rssreader.parse.RssItem;
 
-//	private HandleXmlYandex myHandleYandexRss;
+public class RssReader extends Activity {
+
 	private HandleXmlRbk myHandleRbkRss;
 	private ListView listViewRss;
 	private List<RssItem> rssItems;
@@ -16,20 +18,11 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		listViewRss = (ListView) findViewById(R.id.listView1);
-
+		setContentView(R.layout.rss_main);
+		listViewRss = (ListView) findViewById(R.id.listViewRss);
 		runRssReaderRbk();
 		displayRss();
 	}
-
-	// public void runRssReaderYandex() {
-	// myHandleYandexRss = new HandleXmlYandex();
-	// myHandleYandexRss.fetchXml();
-	// while (!myHandleYandexRss.isParsingComplite())
-	// ;
-	// rssItems = myHandleYandexRss.getItems();
-	// }
 
 	public void runRssReaderRbk() {
 		myHandleRbkRss = new HandleXmlRbk();
