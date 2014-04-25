@@ -1,7 +1,5 @@
 package com.example.rssreader;
 
-import com.example.rssreader.image.DownloadImageService;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,10 +10,14 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.rssreader.image.DownloadImageService;
+
 public class DescriptionActivity extends Activity {
 
 	private static final String DESCRIPTION = "description";
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
+	private static final String SAVED_DESCRIPTION = "savedDescription";
+	private String description;
 	private ImageView imageDownloaded;
 	private TextView tv;
 
@@ -24,9 +26,23 @@ public class DescriptionActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.description);
-
 		tv = (TextView) findViewById(R.id.textViewDescription);
-		tv.setText(getIntent().getStringExtra(DESCRIPTION));
+		if (savedInstanceState == null) {
+			description = getIntent().getStringExtra(DESCRIPTION);
+			tv.setText(description);
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(SAVED_DESCRIPTION, description);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		tv.setText(savedInstanceState.getString(SAVED_DESCRIPTION));
 	}
 
 	/**
