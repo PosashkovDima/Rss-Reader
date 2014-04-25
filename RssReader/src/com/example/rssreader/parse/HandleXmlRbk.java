@@ -90,10 +90,14 @@ public class HandleXmlRbk {
 
 			myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 			myparser.setInput(stream, null);
+
 			parseXmlAndStoreIt(myparser);
+
 			stream.close();
+
 			return feedsList;
 		} catch (Exception e) {
+
 			return null;
 		}
 	}

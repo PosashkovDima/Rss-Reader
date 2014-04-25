@@ -7,9 +7,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.example.rssreader.parse.HandleXmlRbk;
 import com.example.rssreader.parse.Feed;
+import com.example.rssreader.parse.HandleXmlRbk;
 
 public class RssReader extends Activity {
 
@@ -33,6 +34,11 @@ public class RssReader extends Activity {
 
 			myHandleRbkRss = new HandleXmlRbk();
 			feedsList = myHandleRbkRss.fetchFeeds();
+			if (feedsList == null) {
+				Toast.makeText(getApplicationContext(),
+						"Connection failed, please try again",
+						Toast.LENGTH_LONG).show();
+			}
 			return null;
 		}
 
