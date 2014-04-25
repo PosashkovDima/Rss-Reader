@@ -1,12 +1,10 @@
 package com.example.rssreader.parse;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RssFeed implements Serializable {
+public class RssFeed {
 
-	private static final long serialVersionUID = 1L;
 	private List<RssItem> itemList;
 
 	RssFeed() {

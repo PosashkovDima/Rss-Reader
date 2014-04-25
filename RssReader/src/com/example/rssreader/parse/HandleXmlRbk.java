@@ -29,10 +29,10 @@ public class HandleXmlRbk {
 	// public boolean isParsingComplite() {
 	// return isParsingComplete;
 	// }
-//
-//	public List<RssItem> getItems() {
-//		return itemList;
-//	}
+	//
+	// public List<RssItem> getItems() {
+	// return itemList;
+	// }
 
 	/**
 	 * Parse XML and store it to List<RssItem>
@@ -56,7 +56,7 @@ public class HandleXmlRbk {
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
-//					Log.e("asdasd", text);
+					// Log.e("asdasd", text);
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentItem != null) {
@@ -80,7 +80,6 @@ public class HandleXmlRbk {
 				event = myParser.next();
 			}
 			feed.addItems(itemList);
-			// isParsingComplete = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,9 +89,6 @@ public class HandleXmlRbk {
 	 * Set connection with content buy url, download .xml and start parsing.
 	 */
 	public RssFeed fetchXml() {
-		// Thread thread = new Thread(new Runnable() {
-		// @Override
-		// public void run() {
 		try {
 			URL url = new URL(URL_RBK);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -115,8 +111,5 @@ public class HandleXmlRbk {
 		} catch (Exception e) {
 			return null;
 		}
-		// }
-		// });
-		// thread.start();
 	}
 }
