@@ -56,7 +56,8 @@ public class HandleXmlRbk {
 							currentFeed.setDescription(text);
 
 						} else if (name.equals("pubDate")) {
-							currentFeed.setPubDate(text);
+
+							currentFeed.setPubDate(text.replace(" +0400", ""));
 							feedsList.add(currentFeed);
 							currentFeed = null;
 						}
