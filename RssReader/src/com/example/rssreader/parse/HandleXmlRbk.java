@@ -13,24 +13,26 @@ import android.util.Log;
 
 public class HandleXmlRbk {
 
-	private List<RssItem> rssItems;
+	private List<RssItem> itemList;
 
-	private String urlString = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
+	private static final String URL_RBK = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
-	private volatile boolean isParsingComplete = false;
+	// private volatile boolean isParsingComplete = false;
 	private RssItem currentItem;
+	private RssFeed feed;
 
 	public HandleXmlRbk() {
-		rssItems = new ArrayList<RssItem>();
+		itemList = new ArrayList<RssItem>();
+		feed = new RssFeed();
 	}
 
-	public boolean isParsingComplite() {
-		return isParsingComplete;
-	}
-
-	public List<RssItem> getItems() {
-		return rssItems;
-	}
+	// public boolean isParsingComplite() {
+	// return isParsingComplete;
+	// }
+//
+//	public List<RssItem> getItems() {
+//		return itemList;
+//	}
 
 	/**
 	 * Parse XML and store it to List<RssItem>
@@ -54,7 +56,7 @@ public class HandleXmlRbk {
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
-					Log.e("asdasd", text);
+//					Log.e("asdasd", text);
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentItem != null) {
@@ -69,7 +71,7 @@ public class HandleXmlRbk {
 
 						} else if (name.equals("pubDate")) {
 							currentItem.setPubDate(text);
-							rssItems.add(currentItem);
+							itemList.add(currentItem);
 							currentItem = null;
 						}
 					}
@@ -77,7 +79,8 @@ public class HandleXmlRbk {
 				}
 				event = myParser.next();
 			}
-			isParsingComplete = true;
+			feed.addItems(itemList);
+			// isParsingComplete = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,34 +89,34 @@ public class HandleXmlRbk {
 	/**
 	 * Set connection with content buy url, download .xml and start parsing.
 	 */
-	public void fetchXml() {
-		Thread thread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					URL url = new URL(urlString);
-					HttpURLConnection conn = (HttpURLConnection) url
-							.openConnection();
-					conn.setReadTimeout(10000);
-					conn.setConnectTimeout(15000);
-					conn.setRequestMethod("GET");
-					conn.setDoInput(true);
+	public RssFeed fetchXml() {
+		// Thread thread = new Thread(new Runnable() {
+		// @Override
+		// public void run() {
+		try {
+			URL url = new URL(URL_RBK);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setReadTimeout(10000);
+			conn.setConnectTimeout(15000);
+			conn.setRequestMethod("GET");
+			conn.setDoInput(true);
 
-					conn.connect();
-					InputStream stream = conn.getInputStream();
+			conn.connect();
+			InputStream stream = conn.getInputStream();
 
-					xmlFactoryObject = XmlPullParserFactory.newInstance();
-					XmlPullParser myparser = xmlFactoryObject.newPullParser();
+			xmlFactoryObject = XmlPullParserFactory.newInstance();
+			XmlPullParser myparser = xmlFactoryObject.newPullParser();
 
-					myparser.setFeature(
-							XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-					myparser.setInput(stream, null);
-					parseXmlAndStoreIt(myparser);
-					stream.close();
-				} catch (Exception e) {
-				}
-			}
-		});
-		thread.start();
+			myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+			myparser.setInput(stream, null);
+			parseXmlAndStoreIt(myparser);
+			stream.close();
+			return feed;
+		} catch (Exception e) {
+			return null;
+		}
+		// }
+		// });
+		// thread.start();
 	}
 }

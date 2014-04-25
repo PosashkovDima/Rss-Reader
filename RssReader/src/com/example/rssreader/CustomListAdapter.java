@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ListAdapter extends ArrayAdapter<RssItem> {
+public class CustomListAdapter extends ArrayAdapter<RssItem> {
 	private final Context context;
 	private List<RssItem> rssItems;
 
 	private TextView textViewTitle;
 	private TextView textViewPubDate;
 
-	public ListAdapter(Context context, List<RssItem> rssItems) {
+	public CustomListAdapter(Context context, List<RssItem> rssItems) {
 		super(context, R.layout.list_item, rssItems);
 		this.context = context;
 		this.rssItems = rssItems;

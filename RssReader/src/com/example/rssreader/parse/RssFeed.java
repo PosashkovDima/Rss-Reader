@@ -9,11 +9,11 @@ public class RssFeed implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<RssItem> itemList;
 
-	public RssFeed() {
+	RssFeed() {
 		itemList = new ArrayList<RssItem>();
 	}
 
-	public void addItems(List<RssItem> itemList) {
+	void addItems(List<RssItem> itemList) {
 		this.itemList = itemList;
 	}
 
