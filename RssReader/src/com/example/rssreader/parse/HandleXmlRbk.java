@@ -9,30 +9,18 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-import android.util.Log;
-
 public class HandleXmlRbk {
 
-	private List<RssItem> itemList;
+	private List<Feed> feedsList;
 
 	private static final String URL_RBK = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
-	// private volatile boolean isParsingComplete = false;
-	private RssItem currentItem;
-	private RssFeed feed;
+	private Feed currentFeed;
 
 	public HandleXmlRbk() {
-		itemList = new ArrayList<RssItem>();
-		feed = new RssFeed();
-	}
+		feedsList = new ArrayList<Feed>();
 
-	// public boolean isParsingComplite() {
-	// return isParsingComplete;
-	// }
-	//
-	// public List<RssItem> getItems() {
-	// return itemList;
-	// }
+	}
 
 	/**
 	 * Parse XML and store it to List<RssItem>
@@ -50,36 +38,33 @@ public class HandleXmlRbk {
 				switch (event) {
 				case XmlPullParser.START_TAG:
 					if (name.equals("item")) {
-						currentItem = new RssItem();
+						currentFeed = new Feed();
 					}
-					Log.e("asdasd", name);
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
-					// Log.e("asdasd", text);
 					break;
 				case XmlPullParser.END_TAG:
-					if (currentItem != null) {
+					if (currentFeed != null) {
 						if (name.equals("title")) {
-							currentItem.setTitle(text);
+							currentFeed.setTitle(text);
 
 						} else if (name.equals("link")) {
-							currentItem.setLink(text);
+							currentFeed.setLink(text);
 
 						} else if (name.equals("description")) {
-							currentItem.setDescription(text);
+							currentFeed.setDescription(text);
 
 						} else if (name.equals("pubDate")) {
-							currentItem.setPubDate(text);
-							itemList.add(currentItem);
-							currentItem = null;
+							currentFeed.setPubDate(text);
+							feedsList.add(currentFeed);
+							currentFeed = null;
 						}
 					}
 					break;
 				}
 				event = myParser.next();
 			}
-			feed.addItems(itemList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +73,7 @@ public class HandleXmlRbk {
 	/**
 	 * Set connection with content buy url, download .xml and start parsing.
 	 */
-	public RssFeed fetchXml() {
+	public List<Feed> fetchFeeds() {
 		try {
 			URL url = new URL(URL_RBK);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -107,7 +92,7 @@ public class HandleXmlRbk {
 			myparser.setInput(stream, null);
 			parseXmlAndStoreIt(myparser);
 			stream.close();
-			return feed;
+			return feedsList;
 		} catch (Exception e) {
 			return null;
 		}

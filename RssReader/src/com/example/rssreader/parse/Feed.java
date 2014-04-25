@@ -1,6 +1,6 @@
 package com.example.rssreader.parse;
 
-public class RssItem {
+public class Feed {
 	private String link;
 	private String title;
 	private String description;

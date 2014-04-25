@@ -9,14 +9,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.rssreader.parse.HandleXmlRbk;
-import com.example.rssreader.parse.RssFeed;
-import com.example.rssreader.parse.RssItem;
+import com.example.rssreader.parse.Feed;
 
 public class RssReader extends Activity {
 
 	private ListView listViewRss;
-	private List<RssItem> rssItems;
-	private RssFeed feed;
+	private List<Feed> feedsList;
 	private HandleXmlRbk myHandleRbkRss;
 	private ProgressBar mProgressBar;
 
@@ -34,8 +32,7 @@ public class RssReader extends Activity {
 		protected Void doInBackground(Void... params) {
 
 			myHandleRbkRss = new HandleXmlRbk();
-			feed = myHandleRbkRss.fetchXml();
-			rssItems = feed.getItems();
+			feedsList = myHandleRbkRss.fetchFeeds();
 			return null;
 		}
 
@@ -52,10 +49,11 @@ public class RssReader extends Activity {
 		listViewRss = (ListView) findViewById(R.id.listViewRss);
 
 		mProgressBar.setVisibility(4);
-		CustomListAdapter listAdapterRss = new CustomListAdapter(this, rssItems);
+		CustomListAdapter listAdapterRss = new CustomListAdapter(this,
+				feedsList);
 
 		listViewRss.setAdapter(listAdapterRss);
-		listViewRss.setOnItemClickListener(new ListListener(rssItems, this));
+		listViewRss.setOnItemClickListener(new ListListener(feedsList, this));
 
 	}
 }

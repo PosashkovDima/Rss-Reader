@@ -2,7 +2,7 @@ package com.example.rssreader;
 
 import java.util.List;
 
-import com.example.rssreader.parse.RssItem;
+import com.example.rssreader.parse.Feed;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class CustomListAdapter extends ArrayAdapter<RssItem> {
+public class CustomListAdapter extends ArrayAdapter<Feed> {
 	private final Context context;
-	private List<RssItem> rssItems;
+	private List<Feed> rssItems;
 
 	private TextView textViewTitle;
 	private TextView textViewPubDate;
 
-	public CustomListAdapter(Context context, List<RssItem> rssItems) {
+	public CustomListAdapter(Context context, List<Feed> rssItems) {
 		super(context, R.layout.list_item, rssItems);
 		this.context = context;
 		this.rssItems = rssItems;
