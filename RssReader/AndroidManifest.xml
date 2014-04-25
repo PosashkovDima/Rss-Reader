@@ -9,12 +9,15 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service android:name=".DownloadImageService" />
+
         <activity
             android:name="com.example.rssreader.MainActivity"
             android:label="@string/app_name" >
@@ -24,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.rssreader.DescriptionScreen" >
+        <activity android:name="com.example.rssreader.DescriptionScreenActivity" >
         </activity>
     </application>
 

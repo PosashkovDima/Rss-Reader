@@ -9,6 +9,8 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.util.Log;
+
 public class HandleXmlRbk {
 
 	private List<RssItem> rssItems;
@@ -18,7 +20,7 @@ public class HandleXmlRbk {
 	private volatile boolean isParsingComplete = false;
 	private RssItem currentItem;
 
-	public HandleXmlRbk() {  
+	public HandleXmlRbk() {
 		rssItems = new ArrayList<RssItem>();
 	}
 
@@ -48,9 +50,11 @@ public class HandleXmlRbk {
 					if (name.equals("item")) {
 						currentItem = new RssItem();
 					}
+					Log.e("asdasd", name);
 					break;
 				case XmlPullParser.TEXT:
 					text = myParser.getText();
+					Log.e("asdasd", text);
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentItem != null) {
@@ -62,7 +66,7 @@ public class HandleXmlRbk {
 
 						} else if (name.equals("description")) {
 							currentItem.setDescription(text);
-							
+
 						} else if (name.equals("pubDate")) {
 							currentItem.setPubDate(text);
 							rssItems.add(currentItem);

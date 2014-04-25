@@ -8,7 +8,7 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
-	private HandleXmlYandex myHandleYandexRss;
+//	private HandleXmlYandex myHandleYandexRss;
 	private HandleXmlRbk myHandleRbkRss;
 	private ListView listViewRss;
 	private List<RssItem> rssItems;
@@ -23,13 +23,13 @@ public class MainActivity extends Activity {
 		displayRss();
 	}
 
-	public void runRssReaderYandex() {
-		myHandleYandexRss = new HandleXmlYandex();
-		myHandleYandexRss.fetchXml();
-		while (!myHandleYandexRss.isParsingComplite())
-			;
-		rssItems = myHandleYandexRss.getItems();
-	}
+	// public void runRssReaderYandex() {
+	// myHandleYandexRss = new HandleXmlYandex();
+	// myHandleYandexRss.fetchXml();
+	// while (!myHandleYandexRss.isParsingComplite())
+	// ;
+	// rssItems = myHandleYandexRss.getItems();
+	// }
 
 	public void runRssReaderRbk() {
 		myHandleRbkRss = new HandleXmlRbk();
