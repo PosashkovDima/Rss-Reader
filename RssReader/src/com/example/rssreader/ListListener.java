@@ -23,7 +23,7 @@ public class ListListener implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
 
-		Intent i = new Intent(activity, DescriptionScreenActivity.class);
+		Intent i = new Intent(activity, DescriptionActivity.class);
 		i.putExtra(DESCRIPTION, listItems.get(pos).getDescription());
 		activity.startActivity(i);
 	}

@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DescriptionScreenActivity extends Activity {
+public class DescriptionActivity extends Activity {
 
 	private static final String DESCRIPTION = "description";
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
