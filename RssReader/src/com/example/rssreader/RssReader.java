@@ -18,7 +18,7 @@ public class RssReader extends Activity {
 	private List<Feed> feedsList;
 	private HandleXmlRbk myHandleRbkRss;
 	private ProgressBar mProgressBar;
-
+//fragment?
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +45,6 @@ public class RssReader extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-
 			onDisplayRss();
 		}
 	}
