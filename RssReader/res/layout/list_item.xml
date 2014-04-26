@@ -7,8 +7,7 @@
     <TextView
         android:id="@+id/textViewTitle"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:textColor="#00008B"
+        android:layout_height="wrap_content"  
         android:textSize="13sp" >
     </TextView>
 
@@ -19,8 +18,7 @@
         android:layout_alignRight="@id/textViewTitle"
         android:layout_below="@id/textViewTitle"
         android:layout_marginRight="15dp"
-        android:text="@string/app_name"
-        android:textColor="#FFFAFA"
+        android:text="@string/app_name" 
         android:textSize="10sp" >
     </TextView>
 

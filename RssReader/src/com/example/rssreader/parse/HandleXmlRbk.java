@@ -98,7 +98,6 @@ public class HandleXmlRbk {
 
 			return feedsList;
 		} catch (Exception e) {
-
 			return null;
 		}
 	}
