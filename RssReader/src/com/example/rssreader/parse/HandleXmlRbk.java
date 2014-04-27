@@ -39,7 +39,8 @@ public class HandleXmlRbk {
 					if (name.equalsIgnoreCase("item")) {
 
 						currentFeed = new Feed();
-
+						currentFeed.setImageLink(null);
+						// Log.e("11", currentFeed.getImageLink());
 					} else if (name.equalsIgnoreCase("enclosure")) {
 
 						int attributeCount = myParser.getAttributeCount();
@@ -77,6 +78,7 @@ public class HandleXmlRbk {
 					break;
 				}
 				event = myParser.next();
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

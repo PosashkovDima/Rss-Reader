@@ -15,7 +15,7 @@ public class ListListener implements OnItemClickListener {
 	private Activity activity;
 	private static final String DESCRIPTION = "description";
 
-	// private static final String IMAGE_LINK = "imageLink";
+	private static final String IMAGE_LINK = "imageLink";
 
 	public ListListener(List<Feed> listItems, Activity activity) {
 		this.listItems = listItems;
@@ -27,7 +27,9 @@ public class ListListener implements OnItemClickListener {
 
 		Intent i = new Intent(activity, DescriptionActivity.class);
 		i.putExtra(DESCRIPTION, listItems.get(pos).getDescription());
+		// if (listItems.get(pos).getImageLink() != null) {
 		// i.putExtra(IMAGE_LINK, listItems.get(pos).getImageLink());
+		// }
 		activity.startActivity(i);
 	}
 }

@@ -17,9 +17,9 @@ public class DescriptionActivity extends Activity {
 	private static final String DESCRIPTION = "description";
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
 	private static final String SAVED_DESCRIPTION = "savedDescription";
-	// private static final String IMAGE_LINK = "imageLink";
+	private static final String IMAGE_LINK = "imageLink";
 	private String description;
-	// private String imageLink;
+	private String imageLink;
 	private ImageView imageDownloaded;
 	private TextView tv;
 
@@ -31,7 +31,9 @@ public class DescriptionActivity extends Activity {
 		tv = (TextView) findViewById(R.id.textViewDescription);
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(DESCRIPTION);
+
 			// imageLink = getIntent().getStringExtra(IMAGE_LINK);
+			// Log.e("1111", imageLink);
 			// go downloadimageservice
 			tv.setText(description);
 		}
