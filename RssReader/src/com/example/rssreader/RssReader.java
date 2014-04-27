@@ -2,22 +2,22 @@ package com.example.rssreader;
 
 import java.util.List;
 
-import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.example.rssreader.RssReaderFragment.TaskCallbacks;
 import com.example.rssreader.parse.Feed;
-import com.example.rssreader.parse.HandleXmlRbk;
 
-public class RssReader extends Activity {
+public class RssReader extends FragmentActivity implements TaskCallbacks {
 
 	private ListView listViewRss;
 	private List<Feed> feedsList;
-	private HandleXmlRbk myHandleRbkRss;
 	private ProgressBar mProgressBar;
+	private RssReaderFragment readerFragment;
+	private static final String TAG_TASK_FRAGMENT = "task_fragment";
 
 	// fragment?
 	@Override
@@ -27,34 +27,19 @@ public class RssReader extends Activity {
 		mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
 		listViewRss = (ListView) findViewById(R.id.listViewRss);
 
-		new AsyncLoadXMLFeed().execute();
-	}
+		FragmentManager fm = getSupportFragmentManager();
+		readerFragment = (RssReaderFragment) fm
+				.findFragmentByTag(TAG_TASK_FRAGMENT);
 
-	private class AsyncLoadXMLFeed extends AsyncTask<Void, Void, Void> {
+		if (readerFragment == null) {
+			readerFragment = new RssReaderFragment();
+			fm.beginTransaction().add(readerFragment, TAG_TASK_FRAGMENT)
+					.commit();
 
-		@Override
-		protected Void doInBackground(Void... params) {
+		} else if (readerFragment.isDowbloaded()) {
 
-			myHandleRbkRss = new HandleXmlRbk();
-			feedsList = myHandleRbkRss.fetchFeeds();
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-			if (feedsList == null) {
-				// Try again?
-				Toast.makeText(getApplicationContext(),
-						"Connection failed, please try again",
-						Toast.LENGTH_LONG).show();
-				finish();
-				// onDestroy();
-			} else {
-				setProgressBarInvisibility();
-				onDisplayRss();
-			}
+			setProgressBarInvisibility();
+			onDisplayRss();
 		}
 	}
 
@@ -64,11 +49,19 @@ public class RssReader extends Activity {
 
 	private void onDisplayRss() {
 
+		feedsList = readerFragment.getFeedList();
 		CustomListAdapter listAdapterRss = new CustomListAdapter(this,
 				feedsList);
 
 		listViewRss.setAdapter(listAdapterRss);
 		listViewRss.setOnItemClickListener(new ListListener(feedsList, this));
 
+	}
+
+	@Override
+	public void onPostExecute() {
+
+		setProgressBarInvisibility();
+		onDisplayRss();
 	}
 }

@@ -12,7 +12,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class HandleXmlRbk {
 
 	private List<Feed> feedsList;
-
 	private static final String URL_RBK = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
 	private Feed currentFeed;

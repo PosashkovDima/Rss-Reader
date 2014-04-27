@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +23,6 @@ public class DescriptionActivity extends Activity {
 	private ImageView imageDownloaded;
 	private TextView tv;
 
-	// WEB VIEW?
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,7 +33,7 @@ public class DescriptionActivity extends Activity {
 			description = getIntent().getStringExtra(DESCRIPTION);
 			// imageLink = getIntent().getStringExtra(IMAGE_LINK);
 			// go downloadimageservice
-			Log.e("a", "==null");
+			tv.setText(description);
 		}
 	}
 
