@@ -49,17 +49,14 @@ public class HandleXmlRbk {
 						if (name.equals("title")) {
 							currentFeed.setTitle(text);
 
-						} else if (name.equals("link")) {
-							currentFeed.setLink(text);
-
 						} else if (name.equals("description")) {
 							currentFeed.setDescription(text);
 
 						} else if (name.equals("pubDate")) {
-
 							currentFeed.setPubDate(text.replace(" +0400", ""));
 							feedsList.add(currentFeed);
 							currentFeed = null;
+
 						}
 					}
 					break;

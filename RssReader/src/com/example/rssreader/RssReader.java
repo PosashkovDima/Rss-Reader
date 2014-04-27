@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.rssreader.parse.Feed;
 import com.example.rssreader.parse.HandleXmlRbk;
@@ -36,20 +37,24 @@ public class RssReader extends Activity {
 
 			myHandleRbkRss = new HandleXmlRbk();
 			feedsList = myHandleRbkRss.fetchFeeds();
-			if (feedsList == null) {
-				// Try again?
-				// Toast.makeText(getApplicationContext(),
-				// "Connection failed, please try again",
-				// Toast.LENGTH_LONG).show();
-			}
+
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			setProgressBarInvisibility();
-			onDisplayRss();
+			if (feedsList == null) {
+				// Try again?
+				Toast.makeText(getApplicationContext(),
+						"Connection failed, please try again",
+						Toast.LENGTH_LONG).show();
+				finish();
+				// onDestroy();
+			} else {
+				setProgressBarInvisibility();
+				onDisplayRss();
+			}
 		}
 	}
 

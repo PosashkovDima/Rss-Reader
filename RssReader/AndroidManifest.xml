@@ -26,9 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.rssreader.DescriptionActivity" >
-        </activity>
-        <activity android:name="com.example.rssreader.SplashActivity" >
-        </activity>
+        </activity> 
 
         <service android:name="com.example.rssreader.image.DownloadImageService" />
     </application>

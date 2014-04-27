@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +18,13 @@ public class DescriptionActivity extends Activity {
 	private static final String DESCRIPTION = "description";
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
 	private static final String SAVED_DESCRIPTION = "savedDescription";
+	// private static final String IMAGE_LINK = "imageLink";
 	private String description;
+	// private String imageLink;
 	private ImageView imageDownloaded;
 	private TextView tv;
+
+	// WEB VIEW?
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,9 @@ public class DescriptionActivity extends Activity {
 		tv = (TextView) findViewById(R.id.textViewDescription);
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(DESCRIPTION);
-			tv.setText(description);
+			// imageLink = getIntent().getStringExtra(IMAGE_LINK);
+			// go downloadimageservice
+			Log.e("a", "==null");
 		}
 	}
 
@@ -42,7 +49,8 @@ public class DescriptionActivity extends Activity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		tv.setText(savedInstanceState.getString(SAVED_DESCRIPTION));
+		description = savedInstanceState.getString(SAVED_DESCRIPTION);
+		tv.setText(description);
 	}
 
 	/**
