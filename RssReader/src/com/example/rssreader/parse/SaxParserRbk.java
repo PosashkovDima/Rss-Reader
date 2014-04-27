@@ -9,14 +9,14 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
-public class HandleXmlRbk {
+public class SaxParserRbk {
 
 	private List<Feed> feedsList;
 	private static final String URL_RBK = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
 	private XmlPullParserFactory xmlFactoryObject;
 	private Feed currentFeed;
 
-	public HandleXmlRbk() {
+	public SaxParserRbk() {
 		feedsList = new ArrayList<Feed>();
 
 	}
@@ -34,25 +34,11 @@ public class HandleXmlRbk {
 			event = myParser.getEventType();
 			while (event != XmlPullParser.END_DOCUMENT) {
 				String name = myParser.getName();
+
 				switch (event) {
 				case XmlPullParser.START_TAG:
-					if (name.equalsIgnoreCase("item")) {
-
+					if (name.equals("item")) {
 						currentFeed = new Feed();
-
-					} else if (name.equalsIgnoreCase("enclosure")) {
-
-						int attributeCount = myParser.getAttributeCount();
-						for (int i = 0; i < attributeCount; i++) {
-
-							if ("url".equals(myParser.getAttributeName(i))) {
-								String enclosureUri = myParser
-										.getAttributeValue(i);
-								if (!"".equals(enclosureUri)) {
-									currentFeed.setImageLink(enclosureUri);
-								}
-							}
-						}
 					}
 					break;
 				case XmlPullParser.TEXT:
@@ -60,18 +46,17 @@ public class HandleXmlRbk {
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentFeed != null) {
-						if (name.equalsIgnoreCase("title")) {
+						if (name.equals("title")) {
 							currentFeed.setTitle(text);
 
-						} else if (name.equalsIgnoreCase("description")) {
+						} else if (name.equals("description")) {
 							currentFeed.setDescription(text);
 
-						} else if (name.equalsIgnoreCase("pubDate")) {
+						} else if (name.equals("pubDate")) {
 							currentFeed.setPubDate(text.replace(" +0400", ""));
-
-						} else if (name.equalsIgnoreCase("item")) {
 							feedsList.add(currentFeed);
 							currentFeed = null;
+
 						}
 					}
 					break;

@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.example.rssreader.parse.Feed;
 import com.example.rssreader.parse.HandleXmlRbk;
@@ -59,7 +58,7 @@ public class RssReaderFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			Log.e("asdas", "doInBackground()");
+
 			myHandleRbkRss = new HandleXmlRbk();
 			feedsList = myHandleRbkRss.fetchFeeds();
 
