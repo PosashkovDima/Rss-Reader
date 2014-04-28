@@ -16,15 +16,15 @@ import com.example.rssreader.imagedownload.DownloadImageService;
 public class DescriptionActivity extends Activity {
 
 	private static final String IS_IMAGE_EXIST = "isImageExist";
+	private boolean isImageExist = false;
 	private static final String DESCRIPTION = "description";
+	private String description;
+	private static final String IMAGE_LINK = "imageLink";
+	private String imageLink;
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
 	private static final String SAVED_DESCRIPTION = "savedDescription";
-	private static final String IMAGE_LINK = "imageLink";
-	private String description;
-	private String imageLink;
 	private ImageView imageDownloaded;
 	private TextView tv;
-	private boolean isImageExist = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
