@@ -40,6 +40,8 @@ public class DescriptionActivity extends Activity {
 			imageLink = getIntent().getStringExtra(IMAGE_LINK);
 			if (imageLink != null) {
 				downloadImage();
+			} else {
+				imageDownloaded.setVisibility(4);
 			}
 			tv.setText(description);
 		}
