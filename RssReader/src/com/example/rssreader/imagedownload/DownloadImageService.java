@@ -1,4 +1,4 @@
-package com.example.rssreader.image;
+package com.example.rssreader.imagedownload;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -12,15 +12,13 @@ import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
 	public static final String URL = "urlPath";
-	public static final String FILE_NAME = "fileName";
-	public static final String FILE_PATH = "filePath";
+	public static final String FILE_NAME = "fileName"; 
 	public static final String RESULT = "result";
-	public static final String NOTIFICATION = "com.example.servicetest"; 
+	public static final String NOTIFICATION = "com.example.rssreader.image";
 	private Intent intent = new Intent(NOTIFICATION);
 
 	public DownloadImageService() {
@@ -35,7 +33,6 @@ public class DownloadImageService extends IntentService {
 		File fileOutput = new File(Environment.getExternalStorageDirectory(),
 				fileName);
 
-		Log.e(" fileOutput.toString()", fileOutput.toString()); //!
 		InputStream inputStream = null;
 		FileOutputStream outputStream = null;
 		try {
@@ -46,15 +43,13 @@ public class DownloadImageService extends IntentService {
 			conection.connect();
 
 			inputStream = new BufferedInputStream(url.openStream(), 8192);
- 
+
 			outputStream = new FileOutputStream(fileOutput.getPath());
-			
-			Log.e(" fileOutput.getPath()", fileOutput.getPath()); //!
-			
-			int next = -1; 
-			while ((next = inputStream.read()) != -1) { 
-				outputStream.write(next);  
-			} 
+
+			int next = -1;
+			while ((next = inputStream.read()) != -1) {
+				outputStream.write(next);
+			}
 
 			result = Activity.RESULT_OK;
 

@@ -1,4 +1,4 @@
-package com.example.rssreader.parse;
+package com.example.rssreader.parsexml;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

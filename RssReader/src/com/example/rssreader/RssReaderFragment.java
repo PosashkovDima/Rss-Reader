@@ -7,8 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.example.rssreader.parse.Feed;
-import com.example.rssreader.parse.HandleXmlRbk;
+import com.example.rssreader.parsexml.Feed;
+import com.example.rssreader.parsexml.HandleXmlRbk;
 
 public class RssReaderFragment extends Fragment {
 	private TaskCallbacks mCallbacks;

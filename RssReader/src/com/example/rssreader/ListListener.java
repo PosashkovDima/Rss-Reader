@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.example.rssreader.parse.Feed;
+import com.example.rssreader.parsexml.Feed;
 
 public class ListListener implements OnItemClickListener {
 	private List<Feed> listItems;

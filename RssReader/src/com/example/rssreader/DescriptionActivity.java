@@ -11,10 +11,11 @@ import android.os.Environment;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rssreader.image.DownloadImageService;
+import com.example.rssreader.imagedownload.DownloadImageService;
 
 public class DescriptionActivity extends Activity {
 
+	private static final String IS_IMAGE_EXIST = "isImageExist";
 	private static final String DESCRIPTION = "description";
 	private static final String DOWNLOADED_IMAGE_NAME = "downloadedImage.jpg";
 	private static final String SAVED_DESCRIPTION = "savedDescription";
@@ -23,6 +24,7 @@ public class DescriptionActivity extends Activity {
 	private String imageLink;
 	private ImageView imageDownloaded;
 	private TextView tv;
+	private boolean isImageExist = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +33,21 @@ public class DescriptionActivity extends Activity {
 		setContentView(R.layout.description);
 		tv = (TextView) findViewById(R.id.textViewDescription);
 		imageDownloaded = (ImageView) findViewById(R.id.imageDownloaded);
+
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(DESCRIPTION);
 
 			imageLink = getIntent().getStringExtra(IMAGE_LINK);
 			if (imageLink != null) {
 				downloadImage();
-				// Log.e("aaa", "!null");
-				// Log.e("aaa", imageLink);
-			} else {
-				// Log.e("aaa", "null");
 			}
 			tv.setText(description);
 		}
 	}
 
+	/**
+	 * Run Download image service.
+	 */
 	private void downloadImage() {
 		Intent intent = new Intent(this, DownloadImageService.class);
 
@@ -59,12 +61,17 @@ public class DescriptionActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_DESCRIPTION, description);
+		outState.putBoolean(IS_IMAGE_EXIST, isImageExist);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		description = savedInstanceState.getString(SAVED_DESCRIPTION);
+		isImageExist = savedInstanceState.getBoolean(IS_IMAGE_EXIST);
+		if (isImageExist) {
+			setImage();
+		}
 		tv.setText(description);
 	}
 
@@ -78,6 +85,7 @@ public class DescriptionActivity extends Activity {
 			if (bundle != null) {
 				int resultCode = bundle.getInt(DownloadImageService.RESULT);
 				if (resultCode == RESULT_OK) {
+					isImageExist = true;
 					setImage();
 				}
 			}

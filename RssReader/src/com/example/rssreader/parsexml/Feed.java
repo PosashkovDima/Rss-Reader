@@ -1,4 +1,4 @@
-package com.example.rssreader.parse;
+package com.example.rssreader.parsexml;
 
 public class Feed {
 	private String imageLink;

@@ -2,7 +2,7 @@ package com.example.rssreader;
 
 import java.util.List;
 
-import com.example.rssreader.parse.Feed;
+import com.example.rssreader.parsexml.Feed;
 
 import android.content.Context;
 import android.view.LayoutInflater;

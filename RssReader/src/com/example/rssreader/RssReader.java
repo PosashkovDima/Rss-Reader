@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.rssreader.RssReaderFragment.TaskCallbacks;
-import com.example.rssreader.parse.Feed;
+import com.example.rssreader.parsexml.Feed;
 
 public class RssReader extends FragmentActivity implements TaskCallbacks {
 
