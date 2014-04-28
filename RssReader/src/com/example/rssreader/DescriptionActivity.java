@@ -1,11 +1,13 @@
 package com.example.rssreader;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ public class DescriptionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.description);
 		tv = (TextView) findViewById(R.id.textViewDescription);
+		imageDownloaded = (ImageView) findViewById(R.id.imageDownloaded);
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(DESCRIPTION);
 
@@ -76,7 +79,6 @@ public class DescriptionActivity extends Activity {
 			if (bundle != null) {
 				int resultCode = bundle.getInt(DownloadImageService.RESULT);
 				if (resultCode == RESULT_OK) {
-					Log.e("aaa", "RESULT_OK");
 					setImage();
 				}
 			}
@@ -87,11 +89,15 @@ public class DescriptionActivity extends Activity {
 	 * Set image on imageView.
 	 */
 	private void setImage() {
-		imageDownloaded = (ImageView) findViewById(R.id.imageDownloaded);
 		String imagePath = getFilesDir().toString() + "/"
 				+ DOWNLOADED_IMAGE_NAME;
-		imageDownloaded.setImageDrawable(Drawable.createFromPath(imagePath));
+		// imageDownloaded.setImageDrawable(Drawable.createFromPath(imagePath));
+		File file = new File(imagePath);
 
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		intent.setDataAndType(Uri.fromFile(file), "image/*");
+		startActivity(intent);
 		Log.e("aaa", "setImage");
 		Log.e("aaa", imagePath);
 	}
