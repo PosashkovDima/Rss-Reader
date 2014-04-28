@@ -26,10 +26,11 @@ public class ListListener implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
 
 		Intent i = new Intent(activity, DescriptionActivity.class);
+
 		i.putExtra(DESCRIPTION, listItems.get(pos).getDescription());
-		// if (listItems.get(pos).getImageLink() != null) {
-		// i.putExtra(IMAGE_LINK, listItems.get(pos).getImageLink());
-		// }
+
+		i.putExtra(IMAGE_LINK, listItems.get(pos).getImageLink());
+
 		activity.startActivity(i);
 	}
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,11 +33,24 @@ public class DescriptionActivity extends Activity {
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(DESCRIPTION);
 
-			// imageLink = getIntent().getStringExtra(IMAGE_LINK);
-			// Log.e("1111", imageLink);
-			// go downloadimageservice
+			imageLink = getIntent().getStringExtra(IMAGE_LINK);
+			if (imageLink != null) {
+				downloadImage();
+				Log.e("aaa", "!null");
+				Log.e("aaa", imageLink);
+			} else {
+				Log.e("aaa", "null");
+			}
 			tv.setText(description);
 		}
+	}
+
+	private void downloadImage() {
+		Intent intent = new Intent(this, DownloadImageService.class);
+
+		intent.putExtra(DownloadImageService.FILE_NAME, DOWNLOADED_IMAGE_NAME);
+		intent.putExtra(DownloadImageService.URL, imageLink);
+		startService(intent);
 	}
 
 	@Override
@@ -62,6 +76,7 @@ public class DescriptionActivity extends Activity {
 			if (bundle != null) {
 				int resultCode = bundle.getInt(DownloadImageService.RESULT);
 				if (resultCode == RESULT_OK) {
+					Log.e("aaa", "RESULT_OK");
 					setImage();
 				}
 			}
@@ -76,6 +91,9 @@ public class DescriptionActivity extends Activity {
 		String imagePath = getFilesDir().toString() + "/"
 				+ DOWNLOADED_IMAGE_NAME;
 		imageDownloaded.setImageDrawable(Drawable.createFromPath(imagePath));
+
+		Log.e("aaa", "setImage");
+		Log.e("aaa", imagePath);
 	}
 
 	@Override

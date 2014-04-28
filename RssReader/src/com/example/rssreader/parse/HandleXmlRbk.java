@@ -40,7 +40,7 @@ public class HandleXmlRbk {
 
 						currentFeed = new Feed();
 						currentFeed.setImageLink(null);
-						// Log.e("11", currentFeed.getImageLink());
+
 					} else if (name.equalsIgnoreCase("enclosure")) {
 
 						int attributeCount = myParser.getAttributeCount();
