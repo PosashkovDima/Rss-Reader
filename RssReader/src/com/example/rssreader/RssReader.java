@@ -42,6 +42,7 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 			setProgressBarInvisibility();
 			onDisplayRss();
 		}
+
 	}
 
 	private void setProgressBarInvisibility() {

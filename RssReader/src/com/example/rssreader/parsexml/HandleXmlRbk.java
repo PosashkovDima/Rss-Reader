@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 public class HandleXmlRbk {
@@ -91,29 +92,33 @@ public class HandleXmlRbk {
 	 */
 	public List<Feed> fetchFeeds() {
 		InputStream stream = null;
+		XmlPullParser parser;
+		HttpURLConnection httpUrlConnection;
+		URL url;
 		try {
-			URL url = new URL(feedsUrl);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(10000);
-			conn.setConnectTimeout(15000);
-			conn.setRequestMethod("GET");
-			conn.setDoInput(true);
+			url = new URL(feedsUrl);
 
-			conn.connect();
-			stream = conn.getInputStream();
+			httpUrlConnection = (HttpURLConnection) url.openConnection();
+			httpUrlConnection.setReadTimeout(10000);
+			httpUrlConnection.setConnectTimeout(15000);
+
+			httpUrlConnection.setRequestMethod("GET");
+
+			httpUrlConnection.setDoInput(true);
+			httpUrlConnection.connect();
+			stream = httpUrlConnection.getInputStream();
 
 			xmlFactoryObject = XmlPullParserFactory.newInstance();
-			XmlPullParser parser = xmlFactoryObject.newPullParser();
-
+			parser = xmlFactoryObject.newPullParser();
 			parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
 			parser.setInput(stream, null);
-
 			parseXmlAndStoreIt(parser);
-
-			return feedsList;
-		} catch (Exception e) {
-			return null;
+		} catch (XmlPullParserException e1) {
+			feedsList = null;
+		} catch (IOException e) {
+			feedsList = null;
 		} finally {
+
 			try {
 				stream.close();
 			} catch (IOException e) {
@@ -121,5 +126,6 @@ public class HandleXmlRbk {
 				e.printStackTrace();
 			}
 		}
+		return feedsList;
 	}
 }
