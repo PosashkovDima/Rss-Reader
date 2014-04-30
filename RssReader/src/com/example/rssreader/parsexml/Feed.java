@@ -1,7 +1,7 @@
 package com.example.rssreader.parsexml;
 
 public class Feed {
-	private String imageLink;
+	private String imageUrl;
 	private String title;
 	private String description;
 	private String pubDate;
@@ -14,12 +14,12 @@ public class Feed {
 		this.pubDate = pubDate;
 	}
 
-	public String getImageLink() {
-		return imageLink;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setImageLink(String imageLink) {
-		this.imageLink = imageLink;
+	public void setImageUrl(String imageLink) {
+		this.imageUrl = imageLink;
 	}
 
 	public String getTitle() {

@@ -7,6 +7,6 @@
     <string name="link">link</string>
     <string name="description">Description</string>
     <string name="fetch">Fetch Feed</string>
-    <string name="postDate">Post date</string>
+    <string name="post_date">Post date</string>
 
 </resources>

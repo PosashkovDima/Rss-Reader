@@ -11,10 +11,10 @@ import com.example.rssreader.parsexml.Feed;
 import com.example.rssreader.parsexml.HandleXmlRbk;
 
 public class RssReaderFragment extends Fragment {
-	private TaskCallbacks mCallbacks;
+	private TaskCallbacks callbacks;
 	private AsyncLoadXmlFeed asyncLoadXml;
 	private List<Feed> feedsList;
-	private HandleXmlRbk myHandleRbkRss;
+	private HandleXmlRbk handleRbkRss;
 	private boolean isDowbloaded;
 
 	public static interface TaskCallbacks {
@@ -26,7 +26,7 @@ public class RssReaderFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mCallbacks = (TaskCallbacks) activity;
+		callbacks = (TaskCallbacks) activity;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class RssReaderFragment extends Fragment {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mCallbacks = null;
+		callbacks = null;
 	}
 
 	public List<Feed> getFeedList() {
@@ -59,8 +59,9 @@ public class RssReaderFragment extends Fragment {
 		@Override
 		protected Void doInBackground(Void... params) {
 
-			myHandleRbkRss = new HandleXmlRbk();
-			feedsList = myHandleRbkRss.fetchFeeds();
+			handleRbkRss = new HandleXmlRbk(
+					"http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbcdaily.ru/last.rss");
+			feedsList = handleRbkRss.fetchFeeds();
 
 			return null;
 		}
@@ -68,8 +69,8 @@ public class RssReaderFragment extends Fragment {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			if (mCallbacks != null) {
-				mCallbacks.onPostExecute();
+			if (callbacks != null) {
+				callbacks.onPostExecute();
 				isDowbloaded = true;
 			}
 		}

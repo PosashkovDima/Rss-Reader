@@ -1,5 +1,6 @@
 package com.example.rssreader.parsexml;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,13 +13,13 @@ import org.xmlpull.v1.XmlPullParserFactory;
 public class HandleXmlRbk {
 
 	private List<Feed> feedsList;
-	private static final String URL_RBK = "http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss";
+	private String feedsUrl;
 	private XmlPullParserFactory xmlFactoryObject;
 	private Feed currentFeed;
 
-	public HandleXmlRbk() {
+	public HandleXmlRbk(String feedsUrl) {
 		feedsList = new ArrayList<Feed>();
-
+		this.feedsUrl = feedsUrl;
 	}
 
 	/**
@@ -27,37 +28,37 @@ public class HandleXmlRbk {
 	 * @param XmlPullParser
 	 *            myParser
 	 * */
-	public void parseXmlAndStoreIt(XmlPullParser myParser) {
+	public void parseXmlAndStoreIt(XmlPullParser xmlPullParser) {
 		int event;
+		int attributeCount;
+		String name;
 		String text = null;
 		try {
-			event = myParser.getEventType();
+			event = xmlPullParser.getEventType();
 			while (event != XmlPullParser.END_DOCUMENT) {
-				String name = myParser.getName();
+				name = xmlPullParser.getName();
 				switch (event) {
 				case XmlPullParser.START_TAG:
 					if (name.equalsIgnoreCase("item")) {
-
 						currentFeed = new Feed();
-						currentFeed.setImageLink(null);
+						currentFeed.setImageUrl(null);
 
 					} else if (name.equalsIgnoreCase("enclosure")) {
 
-						int attributeCount = myParser.getAttributeCount();
+						attributeCount = xmlPullParser.getAttributeCount();
 						for (int i = 0; i < attributeCount; i++) {
-
-							if ("url".equals(myParser.getAttributeName(i))) {
-								String enclosureUri = myParser
+							if ("url".equals(xmlPullParser.getAttributeName(i))) {
+								String enclosureUrl = xmlPullParser
 										.getAttributeValue(i);
-								if (!"".equals(enclosureUri)) {
-									currentFeed.setImageLink(enclosureUri);
+								if (!"".equals(enclosureUrl)) {
+									currentFeed.setImageUrl(enclosureUrl);
 								}
 							}
 						}
 					}
 					break;
 				case XmlPullParser.TEXT:
-					text = myParser.getText();
+					text = xmlPullParser.getText();
 					break;
 				case XmlPullParser.END_TAG:
 					if (currentFeed != null) {
@@ -77,7 +78,7 @@ public class HandleXmlRbk {
 					}
 					break;
 				}
-				event = myParser.next();
+				event = xmlPullParser.next();
 
 			}
 		} catch (Exception e) {
@@ -86,11 +87,12 @@ public class HandleXmlRbk {
 	}
 
 	/**
-	 * Set connection with content buy url, download .xml and start parsing.
+	 * Set connection with content by url, download .xml and start parsing.
 	 */
 	public List<Feed> fetchFeeds() {
+		InputStream stream = null;
 		try {
-			URL url = new URL(URL_RBK);
+			URL url = new URL(feedsUrl);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setReadTimeout(10000);
 			conn.setConnectTimeout(15000);
@@ -98,21 +100,26 @@ public class HandleXmlRbk {
 			conn.setDoInput(true);
 
 			conn.connect();
-			InputStream stream = conn.getInputStream();
+			stream = conn.getInputStream();
 
 			xmlFactoryObject = XmlPullParserFactory.newInstance();
-			XmlPullParser myparser = xmlFactoryObject.newPullParser();
+			XmlPullParser parser = xmlFactoryObject.newPullParser();
 
-			myparser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-			myparser.setInput(stream, null);
+			parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+			parser.setInput(stream, null);
 
-			parseXmlAndStoreIt(myparser);
-
-			stream.close();
+			parseXmlAndStoreIt(parser);
 
 			return feedsList;
 		} catch (Exception e) {
 			return null;
+		} finally {
+			try {
+				stream.close();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
 		}
 	}
 }

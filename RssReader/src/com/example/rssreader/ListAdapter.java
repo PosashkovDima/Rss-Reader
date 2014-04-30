@@ -11,17 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class CustomListAdapter extends ArrayAdapter<Feed> {
+public class ListAdapter extends ArrayAdapter<Feed> {
 	private final Context context;
-	private List<Feed> rssItems;
+	private List<Feed> feedsList;
 
 	private TextView textViewTitle;
 	private TextView textViewPubDate;
 
-	public CustomListAdapter(Context context, List<Feed> rssItems) {
-		super(context, R.layout.list_item, rssItems);
+	public ListAdapter(Context context, List<Feed> rssItems) {
+		super(context, R.layout.i_list_item, rssItems);
 		this.context = context;
-		this.rssItems = rssItems;
+		this.feedsList = rssItems;
 	}
 
 	@Override
@@ -29,13 +29,13 @@ public class CustomListAdapter extends ArrayAdapter<Feed> {
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.list_item, parent, false);
+		View rowView = inflater.inflate(R.layout.i_list_item, parent, false);
 
-		textViewTitle = (TextView) rowView.findViewById(R.id.textViewTitle);
-		textViewPubDate = (TextView) rowView.findViewById(R.id.textViewPubDate);
+		textViewTitle = (TextView) rowView.findViewById(R.id.text_view_title);
+		textViewPubDate = (TextView) rowView.findViewById(R.id.text_view_pub_date);
 
-		textViewPubDate.setText(rssItems.get(position).getPubDate());
-		textViewTitle.setText(rssItems.get(position).getTitle());
+		textViewPubDate.setText(feedsList.get(position).getPubDate());
+		textViewTitle.setText(feedsList.get(position).getTitle());
 
 		return rowView;
 	}

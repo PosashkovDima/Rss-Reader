@@ -15,9 +15,9 @@ import android.os.Environment;
 
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
-	public static final String URL = "urlPath";
-	public static final String FILE_NAME = "fileName"; 
-	public static final String RESULT = "result";
+	public static final String EXTRA_URL = "url_path";
+	public static final String EXTRA_FILE_NAME = "fileName"; 
+	public static final String EXTRA_RESULT = "result";
 	public static final String NOTIFICATION = "com.example.rssreader.image";
 	private Intent intent = new Intent(NOTIFICATION);
 
@@ -27,8 +27,8 @@ public class DownloadImageService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		String urlPath = intent.getStringExtra(URL);
-		String fileName = intent.getStringExtra(FILE_NAME);
+		String urlPath = intent.getStringExtra(EXTRA_URL);
+		String fileName = intent.getStringExtra(EXTRA_FILE_NAME);
 
 		File fileOutput = new File(Environment.getExternalStorageDirectory(),
 				fileName);
@@ -55,6 +55,7 @@ public class DownloadImageService extends IntentService {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			
 		} finally {
 			if (inputStream != null) {
 				try {
@@ -76,7 +77,7 @@ public class DownloadImageService extends IntentService {
 
 	private void publishResults(int result) {
 
-		intent.putExtra(RESULT, result);
+		intent.putExtra(EXTRA_RESULT, result);
 		sendBroadcast(intent);
 	}
 }

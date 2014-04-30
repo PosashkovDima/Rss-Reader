@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -15,28 +16,27 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 
 	private ListView listViewRss;
 	private List<Feed> feedsList;
-	private ProgressBar mProgressBar;
-	private RssReaderFragment readerFragment;
+	private ProgressBar progressBar;
+	private RssReaderFragment rssReaderFragment;
 	private static final String TAG_TASK_FRAGMENT = "task_fragment";
 
-	// fragment?
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.rss_list);
-		mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
-		listViewRss = (ListView) findViewById(R.id.listViewRss);
+		setContentView(R.layout.a_home);
+		progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+		listViewRss = (ListView) findViewById(R.id.list_view_rss);
 
 		FragmentManager fm = getSupportFragmentManager();
-		readerFragment = (RssReaderFragment) fm
+		rssReaderFragment = (RssReaderFragment) fm
 				.findFragmentByTag(TAG_TASK_FRAGMENT);
 
-		if (readerFragment == null) {
-			readerFragment = new RssReaderFragment();
-			fm.beginTransaction().add(readerFragment, TAG_TASK_FRAGMENT)
+		if (rssReaderFragment == null) {
+			rssReaderFragment = new RssReaderFragment();
+			fm.beginTransaction().add(rssReaderFragment, TAG_TASK_FRAGMENT)
 					.commit();
 
-		} else if (readerFragment.isDowbloaded()) {
+		} else if (rssReaderFragment.isDowbloaded()) {
 
 			setProgressBarInvisibility();
 			onDisplayRss();
@@ -44,13 +44,13 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 	}
 
 	private void setProgressBarInvisibility() {
-		mProgressBar.setVisibility(4);
+		progressBar.setVisibility(View.INVISIBLE);
 	}
 
 	private void onDisplayRss() {
 
-		feedsList = readerFragment.getFeedList();
-		CustomListAdapter listAdapterRss = new CustomListAdapter(this,
+		feedsList = rssReaderFragment.getFeedList();
+		ListAdapter listAdapterRss = new ListAdapter(this,
 				feedsList);
 
 		listViewRss.setAdapter(listAdapterRss);
