@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.rssreader.RssReaderFragment.TaskCallbacks;
 import com.example.rssreader.parsexml.Feed;
@@ -50,12 +51,16 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 	private void onDisplayRss() {
 
 		feedsList = rssReaderFragment.getFeedList();
-		ListAdapter listAdapterRss = new ListAdapter(this,
-				feedsList);
+		if (feedsList == null) {
+			Toast.makeText(getApplicationContext(), "Wrong, try again later.",
+					Toast.LENGTH_LONG).show();
+		} else {
+			ListAdapter listAdapterRss = new ListAdapter(this, feedsList);
 
-		listViewRss.setAdapter(listAdapterRss);
-		listViewRss.setOnItemClickListener(new ListListener(feedsList, this));
-
+			listViewRss.setAdapter(listAdapterRss);
+			listViewRss
+					.setOnItemClickListener(new ListListener(feedsList, this));
+		}
 	}
 
 	@Override

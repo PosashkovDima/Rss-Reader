@@ -39,7 +39,7 @@ public class DescriptionActivity extends Activity {
 			description = getIntent().getStringExtra(EXTRA_DESCRIPTION);
 
 			imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
-			if (imageUrl != null || imageUrl != "") {
+			if (imageUrl != null && imageUrl != "") {
 				downloadImage();
 			} else {
 				imageViewDownloaded.setVisibility(View.INVISIBLE);
