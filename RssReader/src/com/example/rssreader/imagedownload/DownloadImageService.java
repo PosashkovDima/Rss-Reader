@@ -50,6 +50,33 @@ public class DownloadImageService extends IntentService {
 			while ((next = inputStream.read()) != -1) {
 				outputStream.write(next);
 			}
+
+			// BitmapFactory.Options options = new BitmapFactory.Options();
+			// options.inJustDecodeBounds = true;
+			// int height = options.outHeight;
+			// int width = options.outWidth;
+			// int inSampleSize;
+			// if (height > 1 || width > 1) {
+			// if (width > height) {
+			// inSampleSize = Math.round((float) height / (float) 1);
+			// } else {
+			// inSampleSize = Math.round((float) width / (float) 1);
+			// }
+			// }
+			// Bitmap bitmap = null;
+			//
+			// options.inJustDecodeBounds = false;
+			// try {
+			// bitmap = BitmapFactory.decodeStream(
+			// (InputStream) url.getContent(), null, options);
+			// } catch (MalformedURLException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (IOException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
 		} catch (FileNotFoundException e) {
 
 			// e.printStackTrace();
