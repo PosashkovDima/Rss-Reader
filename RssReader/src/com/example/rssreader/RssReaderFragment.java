@@ -59,7 +59,7 @@ public class RssReaderFragment extends Fragment {
 		protected Void doInBackground(Void... params) {
 			HandleXmlRbk handleRbkRss;
 			handleRbkRss = new HandleXmlRbk(
-					"http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbcdaily.ru/last.rss");
+					"http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbc.ru/news.rss");
 			feedsList = handleRbkRss.fetchFeeds();
 
 			return null;
