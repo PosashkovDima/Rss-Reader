@@ -33,8 +33,10 @@ public class HandleXmlRbk {
 		String name;
 		String text = null;
 		Feed currentFeed = null;
+
 		try {
 			event = xmlPullParser.getEventType();
+
 			while (event != XmlPullParser.END_DOCUMENT) {
 				name = xmlPullParser.getName();
 				switch (event) {
@@ -78,12 +80,17 @@ public class HandleXmlRbk {
 					}
 					break;
 				}
-				event = xmlPullParser.next();
-
+				try {
+					event = xmlPullParser.next();
+				} catch (IOException e) {
+					// e.printStackTrace();
+				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+
+			// e.printStackTrace();
 		}
+
 	}
 
 	/**

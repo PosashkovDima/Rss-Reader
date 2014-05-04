@@ -2,6 +2,7 @@ package com.example.rssreader.imagedownload;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +17,7 @@ import android.os.Environment;
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
 	public static final String EXTRA_URL = "url_path";
-	public static final String EXTRA_FILE_NAME = "fileName"; 
+	public static final String EXTRA_FILE_NAME = "fileName";
 	public static final String EXTRA_RESULT = "result";
 	public static final String NOTIFICATION = "com.example.rssreader.image";
 	private Intent intent = new Intent(NOTIFICATION);
@@ -32,46 +33,47 @@ public class DownloadImageService extends IntentService {
 
 		File fileOutput = new File(Environment.getExternalStorageDirectory(),
 				fileName);
-
 		InputStream inputStream = null;
 		FileOutputStream outputStream = null;
+		URL url = null;
+
 		try {
-			URL url = new URL(urlPath);
-
-			URLConnection conection = url.openConnection();
-
+			url = new URL(urlPath);
+			URLConnection conection;
+			conection = url.openConnection();
 			conection.connect();
 
 			inputStream = new BufferedInputStream(url.openStream(), 8192);
-
 			outputStream = new FileOutputStream(fileOutput.getPath());
-
 			int next = -1;
+
 			while ((next = inputStream.read()) != -1) {
 				outputStream.write(next);
 			}
+		} catch (FileNotFoundException e) {
 
-			result = Activity.RESULT_OK;
+			// e.printStackTrace();
+		} catch (IOException e) {
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			
+			// e.printStackTrace();
 		} finally {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 			if (outputStream != null) {
 				try {
 					outputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 		}
+
+		result = Activity.RESULT_OK;
 		publishResults(result);
 	}
 
