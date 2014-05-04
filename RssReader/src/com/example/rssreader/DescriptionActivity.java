@@ -1,10 +1,21 @@
 package com.example.rssreader;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.app.Activity;
+import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +52,7 @@ public class DescriptionActivity extends Activity {
 			imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
 			if (imageUrl != null && imageUrl != "") {
 				downloadImage();
+
 			} else {
 				imageViewDownloaded.setVisibility(View.INVISIBLE);
 			}
@@ -53,11 +65,11 @@ public class DescriptionActivity extends Activity {
 	 * Run Download image service.
 	 */
 	private void downloadImage() {
-		Intent intent = new Intent(this, DownloadImageService.class);
+		Intent intent = new Intent(this, LoadImageService.class);
 
-		intent.putExtra(DownloadImageService.EXTRA_FILE_NAME,
-				EXTRA_DOWNLOADED_IMAGE_NAME);
-		intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
+		// intent.putExtra(DownloadImageService.EXTRA_FILE_NAME,
+		// EXTRA_DOWNLOADED_IMAGE_NAME);
+		// intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
 
 		startService(intent);
 	}
@@ -97,6 +109,51 @@ public class DescriptionActivity extends Activity {
 			}
 		}
 	};
+
+	private class LoadImageService extends IntentService {
+
+		public LoadImageService() {
+			super("DownloadImageService");
+		}
+
+		private void onHandleIntent() {
+			loadImage();
+
+		}
+
+		public Bitmap loadImage() {
+			DefaultHttpClient client = new DefaultHttpClient();
+			Bitmap bitmap = null;
+
+			HttpResponse response;
+			try {
+				response = client.execute(new HttpGet(imageUrl));
+
+				HttpEntity entity = response.getEntity();
+				if (entity != null) {
+					InputStream in;
+
+					in = entity.getContent();
+
+					bitmap = BitmapFactory.decodeStream(in);
+				}
+			} catch (IllegalStateException e) {
+
+				// e.printStackTrace();
+			} catch (IOException e) {
+
+				// e.printStackTrace();
+			}
+			return bitmap;
+		}
+
+		@Override
+		protected void onHandleIntent(Intent intent) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
 
 	/**
 	 * Set image on imageView.
