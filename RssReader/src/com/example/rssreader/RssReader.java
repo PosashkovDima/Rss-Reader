@@ -16,9 +16,9 @@ import com.example.rssreader.parsexml.Feed;
 public class RssReader extends FragmentActivity implements TaskCallbacks {
 
 	private ListView listViewRss;
-	private List<Feed> feedsList;
 	private ProgressBar progressBar;
 	private RssReaderFragment rssReaderFragment;
+
 	private static final String TAG_TASK_FRAGMENT = "task_fragment";
 
 	@Override
@@ -50,7 +50,7 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 	}
 
 	private void onDisplayRss() {
-
+		List<Feed> feedsList;
 		feedsList = rssReaderFragment.getFeedList();
 		if (feedsList == null) {
 			Toast.makeText(getApplicationContext(), "Wrong, try again later.",

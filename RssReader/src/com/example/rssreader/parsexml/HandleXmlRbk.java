@@ -15,8 +15,6 @@ public class HandleXmlRbk {
 
 	private List<Feed> feedsList;
 	private String feedsUrl;
-	private XmlPullParserFactory xmlFactoryObject;
-	private Feed currentFeed;
 
 	public HandleXmlRbk(String feedsUrl) {
 		feedsList = new ArrayList<Feed>();
@@ -34,6 +32,7 @@ public class HandleXmlRbk {
 		int attributeCount;
 		String name;
 		String text = null;
+		Feed currentFeed = null;
 		try {
 			event = xmlPullParser.getEventType();
 			while (event != XmlPullParser.END_DOCUMENT) {
@@ -93,6 +92,7 @@ public class HandleXmlRbk {
 	public List<Feed> fetchFeeds() {
 		InputStream stream = null;
 		XmlPullParser parser;
+		XmlPullParserFactory xmlFactoryObject;
 		HttpURLConnection httpUrlConnection;
 		URL url;
 		try {

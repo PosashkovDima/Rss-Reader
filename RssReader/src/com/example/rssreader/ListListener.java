@@ -30,7 +30,6 @@ public class ListListener implements OnItemClickListener {
 		intent.putExtra(EXTRA_DESCRIPTION, feedsList.get(pos).getDescription());
 
 		intent.putExtra(EXTRA_IMAGE_URL, feedsList.get(pos).getImageUrl());
-//		Log.e("onItemClick", feedsList.get(pos).getImageUrl());
 
 		activity.startActivity(intent);
 	}

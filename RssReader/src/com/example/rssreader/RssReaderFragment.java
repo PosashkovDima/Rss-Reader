@@ -12,9 +12,7 @@ import com.example.rssreader.parsexml.HandleXmlRbk;
 
 public class RssReaderFragment extends Fragment {
 	private TaskCallbacks callbacks;
-	private AsyncLoadXmlFeed asyncLoadXml;
 	private List<Feed> feedsList;
-	private HandleXmlRbk handleRbkRss;
 	private boolean isDowbloaded;
 
 	public static interface TaskCallbacks {
@@ -32,8 +30,9 @@ public class RssReaderFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setRetainInstance(true);
+
+		AsyncLoadXmlFeed asyncLoadXml;
 		isDowbloaded = false;
 		asyncLoadXml = new AsyncLoadXmlFeed();
 		asyncLoadXml.execute();
@@ -58,7 +57,7 @@ public class RssReaderFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-
+			HandleXmlRbk handleRbkRss;
 			handleRbkRss = new HandleXmlRbk(
 					"http://static.feed.rbc.ru/rbc/internal/rss.rbc.ru/rbcdaily.ru/last.rss");
 			feedsList = handleRbkRss.fetchFeeds();
