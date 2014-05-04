@@ -54,8 +54,8 @@ public class DownloadImageService extends IntentService {
 
 			// e.printStackTrace();
 		} catch (IOException e) {
-
 			// e.printStackTrace();
+
 		} finally {
 			if (inputStream != null) {
 				try {
