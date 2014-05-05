@@ -48,6 +48,7 @@ public class RssReader extends FragmentActivity implements TaskCallbacks {
 				onDisplayRss();
 			}
 		}
+		//savedInstanceState.putParcelable();
 	}
 
 	public boolean isOnline() {

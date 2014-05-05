@@ -1,9 +1,7 @@
 package com.example.rssreader.imagedownload;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -12,13 +10,14 @@ import java.net.URLConnection;
 import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Environment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
 	public static final String EXTRA_URL = "url_path";
-	public static final String EXTRA_FILE_NAME = "fileName";
 	public static final String EXTRA_RESULT = "result";
+	public static final String EXTRA_BITMAP = "bitmap";
 	public static final String NOTIFICATION = "com.example.rssreader.image";
 	private Intent intent = new Intent(NOTIFICATION);
 
@@ -29,14 +28,11 @@ public class DownloadImageService extends IntentService {
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		String urlPath = intent.getStringExtra(EXTRA_URL);
-		String fileName = intent.getStringExtra(EXTRA_FILE_NAME);
 
-		File fileOutput = new File(Environment.getExternalStorageDirectory(),
-				fileName);
 		InputStream inputStream = null;
-		FileOutputStream outputStream = null;
-		URL url = null;
 
+		URL url = null;
+		Bitmap bitmap = null;
 		try {
 			url = new URL(urlPath);
 			URLConnection conection;
@@ -44,13 +40,8 @@ public class DownloadImageService extends IntentService {
 			conection.connect();
 
 			inputStream = new BufferedInputStream(url.openStream(), 8192);
-			outputStream = new FileOutputStream(fileOutput.getPath());
-			int next = -1;
 
-			while ((next = inputStream.read()) != -1) {
-				outputStream.write(next);
-			}
-
+			bitmap = BitmapFactory.decodeStream(inputStream);
 		} catch (FileNotFoundException e) {
 
 		} catch (IOException e) {
@@ -63,22 +54,15 @@ public class DownloadImageService extends IntentService {
 					// e.printStackTrace();
 				}
 			}
-			if (outputStream != null) {
-				try {
-					outputStream.close();
-				} catch (IOException e) {
-					// e.printStackTrace();
-				}
-			}
 		}
 
 		result = Activity.RESULT_OK;
-		publishResults(result);
+		publishResults(result, bitmap);
 	}
 
-	private void publishResults(int result) {
-
+	private void publishResults(int result, Bitmap bitmap) {
 		intent.putExtra(EXTRA_RESULT, result);
+		intent.putExtra(EXTRA_BITMAP, bitmap);
 		sendBroadcast(intent);
 	}
 }

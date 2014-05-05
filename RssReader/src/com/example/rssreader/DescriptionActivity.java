@@ -5,9 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,9 +17,9 @@ import com.example.rssreader.imagedownload.DownloadImageService;
 public class DescriptionActivity extends Activity {
 
 	private static final String EXTRA_IS_IMAGE_EXIST = "is_image_exist";
-	private boolean isImageExist = false;
-	private static final String EXTRA_DOWNLOADED_IMAGE_NAME = "downloaded_image.jpg";
+	private boolean isImageExist = false; 
 	private static final String EXTRA_DESCRIPTION = "description";
+	public static final String EXTRA_BITMAP = "bitmap";
 	private String description;
 	private static final String EXTRA_IMAGE_URL = "image_url";
 	private String imageUrl;
@@ -54,12 +53,9 @@ public class DescriptionActivity extends Activity {
 	 */
 	private void downloadImage() {
 		Intent intent = new Intent(this, DownloadImageService.class);
-
-		intent.putExtra(DownloadImageService.EXTRA_FILE_NAME,
-				EXTRA_DOWNLOADED_IMAGE_NAME);
+ 
 		intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
 		startService(intent);
-		Log.e("service", "StartService!");
 	}
 
 	/**
@@ -68,14 +64,17 @@ public class DescriptionActivity extends Activity {
 	private BroadcastReceiver receiverDownloadingImage = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			Bitmap bitmap = null;
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				int resultCode = bundle
 						.getInt(DownloadImageService.EXTRA_RESULT);
+				Log.e("service", resultCode + "");
 				if (resultCode == RESULT_OK) {
 					isImageExist = true;
-					setImage();
-					Log.e("service", "RESULT_OK");
+					bitmap = bundle.getParcelable(EXTRA_BITMAP);
+					setImage(bitmap);
+
 				}
 			}
 		}
@@ -84,11 +83,9 @@ public class DescriptionActivity extends Activity {
 	/**
 	 * Set image on imageView.
 	 */
-	private void setImage() {
-		String imagePath = Environment.getExternalStorageDirectory().getPath()
-				+ "/" + EXTRA_DOWNLOADED_IMAGE_NAME;
-		imageViewDownloaded
-				.setImageDrawable(Drawable.createFromPath(imagePath));
+	private void setImage(Bitmap bitmap) {
+
+		imageViewDownloaded.setImageBitmap(bitmap);
 	}
 
 	@Override
@@ -117,7 +114,7 @@ public class DescriptionActivity extends Activity {
 		description = savedInstanceState.getString(EXTRA_SAVED_DESCRIPTION);
 		isImageExist = savedInstanceState.getBoolean(EXTRA_IS_IMAGE_EXIST);
 		if (isImageExist) {
-			setImage();
+			// setImage();
 		}
 		textViewDescription.setText(description);
 	}
