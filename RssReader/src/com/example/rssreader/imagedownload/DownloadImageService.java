@@ -2,6 +2,7 @@ package com.example.rssreader.imagedownload;
 
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,9 +10,11 @@ import java.net.URLConnection;
 
 import android.app.Activity;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
@@ -57,12 +60,32 @@ public class DownloadImageService extends IntentService {
 		}
 
 		result = Activity.RESULT_OK;
-		publishResults(result, bitmap);
+		publishResults(result);
+		saveBitmap(bitmap);
 	}
 
-	private void publishResults(int result, Bitmap bitmap) {
+	private void saveBitmap(Bitmap bitmap) {
+		FileOutputStream fos = null;
+		try {
+			fos = openFileOutput(EXTRA_BITMAP, Context.MODE_PRIVATE);
+			bitmap.compress(CompressFormat.JPEG, 90, fos);
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			try {
+				fos.close();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void publishResults(int result) {
+
 		intent.putExtra(EXTRA_RESULT, result);
-		intent.putExtra(EXTRA_BITMAP, bitmap);
 		sendBroadcast(intent);
 	}
 }

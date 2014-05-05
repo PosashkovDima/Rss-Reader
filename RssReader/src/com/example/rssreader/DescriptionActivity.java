@@ -1,13 +1,17 @@
 package com.example.rssreader;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +21,7 @@ import com.example.rssreader.imagedownload.DownloadImageService;
 public class DescriptionActivity extends Activity {
 
 	private static final String EXTRA_IS_IMAGE_EXIST = "is_image_exist";
-	private boolean isImageExist = false; 
+	private boolean isImageExist = false;
 	private static final String EXTRA_DESCRIPTION = "description";
 	public static final String EXTRA_BITMAP = "bitmap";
 	private String description;
@@ -53,7 +57,7 @@ public class DescriptionActivity extends Activity {
 	 */
 	private void downloadImage() {
 		Intent intent = new Intent(this, DownloadImageService.class);
- 
+
 		intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
 		startService(intent);
 	}
@@ -64,17 +68,14 @@ public class DescriptionActivity extends Activity {
 	private BroadcastReceiver receiverDownloadingImage = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Bitmap bitmap = null;
+
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				int resultCode = bundle
 						.getInt(DownloadImageService.EXTRA_RESULT);
-				Log.e("service", resultCode + "");
 				if (resultCode == RESULT_OK) {
 					isImageExist = true;
-					bitmap = bundle.getParcelable(EXTRA_BITMAP);
-					setImage(bitmap);
-
+					setImage();
 				}
 			}
 		}
@@ -83,9 +84,25 @@ public class DescriptionActivity extends Activity {
 	/**
 	 * Set image on imageView.
 	 */
-	private void setImage(Bitmap bitmap) {
+	private void setImage() {
+		Bitmap bitmap = null;
+		FileInputStream fis = null;
+		try {
+			fis = openFileInput(EXTRA_BITMAP);
+			bitmap = BitmapFactory.decodeStream(fis);
 
-		imageViewDownloaded.setImageBitmap(bitmap);
+			imageViewDownloaded.setImageBitmap(bitmap);
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e) {
+
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -114,7 +131,7 @@ public class DescriptionActivity extends Activity {
 		description = savedInstanceState.getString(EXTRA_SAVED_DESCRIPTION);
 		isImageExist = savedInstanceState.getBoolean(EXTRA_IS_IMAGE_EXIST);
 		if (isImageExist) {
-			// setImage();
+			setImage();
 		}
 		textViewDescription.setText(description);
 	}
