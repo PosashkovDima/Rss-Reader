@@ -30,8 +30,7 @@
         <activity android:name="com.example.rssreader.DescriptionActivity" >
         </activity>
 
-        <service android:name="com.example.rssreader.imagedownload.DownloadImageService" />
-        <service android:name="com.example.rssreader.imagedownload.LoadImageService" />
+        <service android:name="com.example.rssreader.imagedownload.DownloadImageService" /> 
     </application>
 
 </manifest>

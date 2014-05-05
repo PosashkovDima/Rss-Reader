@@ -1,24 +1,14 @@
 package com.example.rssreader;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.app.Activity;
-import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,11 +19,11 @@ public class DescriptionActivity extends Activity {
 
 	private static final String EXTRA_IS_IMAGE_EXIST = "is_image_exist";
 	private boolean isImageExist = false;
+	private static final String EXTRA_DOWNLOADED_IMAGE_NAME = "downloaded_image.jpg";
 	private static final String EXTRA_DESCRIPTION = "description";
 	private String description;
 	private static final String EXTRA_IMAGE_URL = "image_url";
 	private String imageUrl;
-	private static final String EXTRA_DOWNLOADED_IMAGE_NAME = "downloaded_image.jpg";
 	private static final String EXTRA_SAVED_DESCRIPTION = "saved_description";
 	private ImageView imageViewDownloaded;
 	private TextView textViewDescription;
@@ -48,11 +38,9 @@ public class DescriptionActivity extends Activity {
 
 		if (savedInstanceState == null) {
 			description = getIntent().getStringExtra(EXTRA_DESCRIPTION);
-
 			imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
 			if (imageUrl != null && imageUrl != "") {
 				downloadImage();
-
 			} else {
 				imageViewDownloaded.setVisibility(View.INVISIBLE);
 			}
@@ -65,31 +53,13 @@ public class DescriptionActivity extends Activity {
 	 * Run Download image service.
 	 */
 	private void downloadImage() {
-		Intent intent = new Intent(this, LoadImageService.class);
+		Intent intent = new Intent(this, DownloadImageService.class);
 
-		// intent.putExtra(DownloadImageService.EXTRA_FILE_NAME,
-		// EXTRA_DOWNLOADED_IMAGE_NAME);
-		// intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
-
+		intent.putExtra(DownloadImageService.EXTRA_FILE_NAME,
+				EXTRA_DOWNLOADED_IMAGE_NAME);
+		intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
 		startService(intent);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString(EXTRA_SAVED_DESCRIPTION, description);
-		outState.putBoolean(EXTRA_IS_IMAGE_EXIST, isImageExist);
-	}
-
-	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-		description = savedInstanceState.getString(EXTRA_SAVED_DESCRIPTION);
-		isImageExist = savedInstanceState.getBoolean(EXTRA_IS_IMAGE_EXIST);
-		if (isImageExist) {
-			setImage();
-		}
-		textViewDescription.setText(description);
+		Log.e("service", "StartService!");
 	}
 
 	/**
@@ -105,55 +75,11 @@ public class DescriptionActivity extends Activity {
 				if (resultCode == RESULT_OK) {
 					isImageExist = true;
 					setImage();
+					Log.e("service", "RESULT_OK");
 				}
 			}
 		}
 	};
-
-	private class LoadImageService extends IntentService {
-
-		public LoadImageService() {
-			super("DownloadImageService");
-		}
-
-		private void onHandleIntent() {
-			loadImage();
-
-		}
-
-		public Bitmap loadImage() {
-			DefaultHttpClient client = new DefaultHttpClient();
-			Bitmap bitmap = null;
-
-			HttpResponse response;
-			try {
-				response = client.execute(new HttpGet(imageUrl));
-
-				HttpEntity entity = response.getEntity();
-				if (entity != null) {
-					InputStream in;
-
-					in = entity.getContent();
-
-					bitmap = BitmapFactory.decodeStream(in);
-				}
-			} catch (IllegalStateException e) {
-
-				// e.printStackTrace();
-			} catch (IOException e) {
-
-				// e.printStackTrace();
-			}
-			return bitmap;
-		}
-
-		@Override
-		protected void onHandleIntent(Intent intent) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
 
 	/**
 	 * Set image on imageView.
@@ -178,4 +104,21 @@ public class DescriptionActivity extends Activity {
 		unregisterReceiver(receiverDownloadingImage);
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(EXTRA_SAVED_DESCRIPTION, description);
+		outState.putBoolean(EXTRA_IS_IMAGE_EXIST, isImageExist);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		description = savedInstanceState.getString(EXTRA_SAVED_DESCRIPTION);
+		isImageExist = savedInstanceState.getBoolean(EXTRA_IS_IMAGE_EXIST);
+		if (isImageExist) {
+			setImage();
+		}
+		textViewDescription.setText(description);
+	}
 }
