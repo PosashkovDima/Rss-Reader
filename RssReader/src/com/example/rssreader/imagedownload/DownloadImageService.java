@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.util.Log;
 
 public class DownloadImageService extends IntentService {
 	private int result = Activity.RESULT_CANCELED;
@@ -44,6 +45,8 @@ public class DownloadImageService extends IntentService {
 
 			inputStream = new BufferedInputStream(url.openStream(), 8192);
 
+			BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+			bmOptions.inSampleSize = 1;
 			bitmap = BitmapFactory.decodeStream(inputStream);
 		} catch (FileNotFoundException e) {
 
@@ -51,24 +54,28 @@ public class DownloadImageService extends IntentService {
 
 		} finally {
 			if (inputStream != null) {
+
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					// e.printStackTrace();
+
+					e.printStackTrace();
 				}
+
 			}
 		}
 
 		result = Activity.RESULT_OK;
-		publishResults(result);
 		saveBitmap(bitmap);
+		publishResults(result);
 	}
 
 	private void saveBitmap(Bitmap bitmap) {
 		FileOutputStream fos = null;
+		Log.e("service", "saveBitmap");
 		try {
 			fos = openFileOutput(EXTRA_BITMAP, Context.MODE_PRIVATE);
-			bitmap.compress(CompressFormat.JPEG, 90, fos);
+			bitmap.compress(CompressFormat.JPEG, 100, fos);
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();

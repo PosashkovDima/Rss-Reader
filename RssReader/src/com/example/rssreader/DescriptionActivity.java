@@ -57,7 +57,6 @@ public class DescriptionActivity extends Activity {
 	 */
 	private void downloadImage() {
 		Intent intent = new Intent(this, DownloadImageService.class);
-
 		intent.putExtra(DownloadImageService.EXTRA_URL, imageUrl);
 		startService(intent);
 	}
@@ -90,16 +89,13 @@ public class DescriptionActivity extends Activity {
 		try {
 			fis = openFileInput(EXTRA_BITMAP);
 			bitmap = BitmapFactory.decodeStream(fis);
-
 			imageViewDownloaded.setImageBitmap(bitmap);
 		} catch (FileNotFoundException e) {
-
 			e.printStackTrace();
 		} finally {
 			try {
 				fis.close();
 			} catch (IOException e) {
-
 				e.printStackTrace();
 			}
 		}
